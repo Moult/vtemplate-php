@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="vtemplate" default="main">
+    <property name="basedir" value="${project.basedir}" />
+    <property name="appdir" value="${basedir}/application" />
+    <property name="builddir" value="${basedir}/build" />
+
+    <target name="clean" description="Prep project for CI">
+        <delete dir="${builddir}" />
+        <mkdir dir="${builddir}" />
+    </target>
+
+    <target name="behat" description="Run Behat">
+        <exec command="bin/behat -f progress --ansi" passthru="true" />
+    </target>
+
+    <target name="phpcs" description="Run PHP_CodeSniffer">
+        <phpcodesniffer standard="Kohana">
+            <fileset dir="${appdir}">
+                <include name="**/*.php" />
+                <exclude name="**/cache/mustache/*" />
+            </fileset>
+        </phpcodesniffer>
+    </target>
+
+    <target name="phpcs-log" description="Run PHP_CodeSniffer with CI log">
+        <phpcodesniffer standard="Kohana">
+            <fileset dir="${appdir}">
+                <include name="**/*.php" />
+                <exclude name="**/cache/mustache/*" />
+            </fileset>
+            <formatter type="checkstyle" outfile="${builddir}/checkstyle-result.xml" />
+        </phpcodesniffer>
+    </target>
+
+    <target name="pdepend" description="Run pdepend">
+        <phpdepend>
+            <fileset dir="${appdir}">
+                <include name="**/*.php" />
+            </fileset>
+            <logger type="jdepend-xml" outfile="${builddir}/jdepend.xml" />
+            <logger type="jdepend-chart" outfile="${builddir}/dependencies.svg" />
+            <logger type="overview-pyramid" outfile="${builddir}/overview-pyramid.svg" />
+        </phpdepend>
+    </target>
+
+    <target name="phpmd" description="Run phpmd">
+        <exec command="phpmd ${appdir} text codesize,unusedcode,naming,design --exclude '${appdir}/cache/*'" passthru="true" />
+    </target>
+
+    <target name="phpmd-log" description="Run phpmd with CI log">
+        <exec command="phpmd ${appdir} text codesize,unusedcode,naming,design --exclude '${appdir}/cache/*' --reportfile ${builddir}/pmd.xml" passthru="true" />
+    </target>
+
+    <target name="phpcpd" description="Run phpcpd">
+        <phpcpd>
+            <fileset dir="${appdir}">
+                <include name="**/*.php" />
+                <exclude name="**/cache/mustache/*" />
+            </fileset>
+        </phpcpd>
+    </target>
+
+    <target name="phpcpd-log" description="Run phpcpd with CI log">
+        <phpcpd>
+            <fileset dir="${appdir}">
+                <include name="**/*.php" />
+                <exclude name="**/cache/mustache/*" />
+            </fileset>
+            <formatter type="pmd" outfile="${builddir}/cpd.xml" />
+        </phpcpd>
+    </target>
+
+    <target name="phpdcd" description="Run phpdcd">
+        <exec command="phpdcd --exclude ${appdir}/classes/auth/ --exclude ${appdir}/cache/ ${appdir}" passthru="true" />
+    </target>
+
+    <target name="phpdoc2" description="Run phpDocumentor2">
+        <exec command="phpdoc --title=vtemplate -t ${basedir}/docs/ -d ${appdir}/classes/" passthru="true" />
+    </target>
+
+    <target name="main" description="Run tests - minimum requirement for a push">
+        <phingcall target="behat" />
+    </target>
+
+    <target name="all" description="Run everything" depends="clean">
+        <phingcall target="behat" />
+        <phingcall target="phpcs" />
+        <phingcall target="pdepend" />
+        <phingcall target="phpmd" />
+        <phingcall target="phpcpd" />
+        <phingcall target="phpdcd" />
+        <phingcall target="phpdoc2" />
+    </target>
+
+    <target name="all-log" description="Run everything with CI logs" depends="clean">
+        <phingcall target="behat" />
+        <phingcall target="phpcs-log" />
+        <phingcall target="pdepend" />
+        <phingcall target="phpmd-log" />
+        <phingcall target="phpcpd-log" />
+        <phingcall target="phpdcd" />
+        <phingcall target="phpdoc2" />
+    </target>
+</project>
