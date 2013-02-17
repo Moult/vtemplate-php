@@ -34,7 +34,7 @@
 
     <target name="pdepend" description="Run pdepend">
         <phpdepend>
-            <fileset dir="${appdir}">
+            <fileset dir="${appdir}/classes">
                 <include name="**/*.php" />
             </fileset>
             <logger type="jdepend-xml" outfile="${builddir}/jdepend.xml" />
