@@ -13,7 +13,7 @@ To begin a fresh project with vtemplate,
 then follow these instructions within your repository's root to merge vtemplate
 into your repo.
 
- 1. `git remote add -f vtemplate giturl`
+ 1. `git remote add -f vtemplate git://github.com/Moult/vtemplate.git`
  2. `git merge -Xtheirs vtemplate/master`
 
 You are now free to use vtemplate. You will still need to install it, of course!
