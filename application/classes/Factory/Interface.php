@@ -1,19 +1,14 @@
 <?php
 /**
- * vtemplate Factory/Interface.php
+ * vtemplate
  *
- * @package   Factory
- * @author    Dion Moult <dion@thinkmoult.com>
- * @copyright (c) 2013 Dion Moult
- * @license   ISC http://opensource.org/licenses/isc-license.txt
+ * @license ISC http://opensource.org/licenses/isc-license.txt
  */
 
 defined('SYSPATH') OR die('No direct script access.');
 
 /**
  * All factories should implement this
- *
- * @package Factory
  */
 interface Factory_Interface
 {

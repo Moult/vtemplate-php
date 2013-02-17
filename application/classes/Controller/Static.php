@@ -1,19 +1,14 @@
 <?php
 /**
- * vtemplate application/classes/Controller/Static.php
+ * vtemplate
  *
- * @package   Controller
- * @author    Dion Moult <dion@thinkmoult.com>
- * @copyright (c) 2013 Dion Moult
- * @license   ISC http://opensource.org/licenses/isc-license.txt
+ * @license ISC http://opensource.org/licenses/isc-license.txt
  */
 
 defined('SYSPATH') OR die('No direct script access.');
 
 /**
  * Shows static base pages of the website.
- *
- * @package Controller
  */
 class Controller_Static extends Controller_Core
 {
