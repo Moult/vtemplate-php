@@ -8,10 +8,9 @@ development with BDD, and a suite of tools via Phing's CI.
 
 ## Setup
 
-To begin a fresh project with vtemplate,
-[create](http://git.projectomni.com/add.php) your new git repository as usual,
-then follow these instructions within your repository's root to merge vtemplate
-into your repo.
+To begin a fresh project with vtemplate, create your new git repository as
+usual, then follow these instructions within your repository's root to merge
+vtemplate into your repo.
 
  1. `git remote add -f vtemplate git://github.com/Moult/vtemplate.git`
  2. `git merge -Xtheirs vtemplate/master`
