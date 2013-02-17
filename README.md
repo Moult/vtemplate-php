@@ -8,7 +8,11 @@ application development with PHPSpec2 and Behat, wrapped inside Phing.
 
 ## Anything added?
 
-Yes. An experimental CMS is implemented with WYMEditor. It's in `modules/cms/`
+ 1. An experimental CMS is implemented with WYMEditor. It's in `modules/cms/`
+ 2. Catchall route autoloads Static templates without need for a view. See
+    `application/classes/Controller/Static.php`. E.g. `static/foo/` will load
+    `APPPATH/templates/static/foo.mustache`
+ 3. Autorendering templates. See `application/classes/Controller/Core.php`
 
 ## Setup
 
