@@ -25,12 +25,6 @@ abstract class Controller_Core extends Controller
     protected $template = NULL;
 
     /**
-     * Stores the view class name it tries to autoload
-     * @var string
-     */
-    private $view_class_name;
-
-    /**
      * Stores the name of the layout to use to render the view
      * @var string
      */
@@ -44,12 +38,11 @@ abstract class Controller_Core extends Controller
     public function before()
     {
         $this->view = new stdClass;
+        $view_class_name = 'View_'.ucfirst($this->request->controller()).'_'.ucfirst($this->request->action());
 
-        $this->view_class_name = "View_".ucfirst($this->request->controller()).'_'.ucfirst($this->request->action());
-
-        if (Kohana::find_file('classes', str_replace('_', '/', $this->view_class_name)))
+        if (Kohana::find_file('classes', str_replace('_', '/', $view_class_name)))
         {
-            $this->view = new $this->view_class_name;
+            $this->view = new $view_class_name;
         }
     }
 
@@ -63,11 +56,8 @@ abstract class Controller_Core extends Controller
         $this->view->request = $this->request;
 
         if (get_class($this->view) !== 'stdClass')
-        {
-            $renderer = Kostache_Layout::factory($this->layout);
-            $this->response->body($renderer->render($this->view, $this->template));
-        }
+            return $this->response->body(Kostache_Layout::factory($this->layout)->render($this->view, $this->template));
         else
-            throw New HTTP_Exception_404('View '.$this->view_class_name.' not found.');
+            throw New HTTP_Exception_404('View not found.');
     }
 }
