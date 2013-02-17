@@ -2,9 +2,13 @@
 
 vtemplate is a boilerplate setup for starting new projects. It takes the best of
 the frontend worlds (a customised H5BP) and the backend worlds (KO routing,
-PSR-0 loaded apps, modules), glues them together with an amazing template engine
-(Mustache via KOstache), and provides the infrastructure for good application
-development with BDD, and a suite of tools via Phing's CI.
+PSR-0 loaded apps, modules, Composer), glues them together with an amazing
+template engine (Mustache/KOstache), and provides the infrastructure for good
+application development with PHPSpec2 and Behat, wrapped inside Phing.
+
+## Anything added?
+
+Yes. An experimental CMS is implemented with WYMEditor. It's in `modules/cms/`
 
 ## Setup
 
