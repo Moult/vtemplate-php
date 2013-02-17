@@ -6,10 +6,6 @@
     Name: Dion Moult
     Role: Main developer
 
-# THANKS
-
-    Name: Gerard Eiluvit
-
 # TECHNOLOGY COLOPHON
 
     HTML5, CSS3
