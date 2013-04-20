@@ -5,7 +5,7 @@
  *
  * @author    Dion Moult <dion@thinkmoult.com>
  * @copyright (c) 2013 Dion Moult
- * @license   ISC http://opensource.org/licenses/isc-license.txt
+ * @license   MIT
  */
 
 $application = 'application';

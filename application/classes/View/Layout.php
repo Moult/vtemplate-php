@@ -1,10 +1,4 @@
 <?php
-/**
- * vtemplate
- *
- * @license ISC http://opensource.org/licenses/isc-license.txt
- */
-
 defined('SYSPATH') OR die('No direct script access.');
 
 /**

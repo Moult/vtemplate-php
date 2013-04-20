@@ -5,8 +5,8 @@
  *
  * @package   Driver
  * @author    Dion Moult <dion@thinkmoult.com>
- * @copyright (c) 2012 Omni Studios
- * @license   ISC http://opensource.org/licenses/isc-license.txt
+ * @copyright (c) 2013 Dion Moult
+ * @license   MIT
  */
 
 /**

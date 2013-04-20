@@ -2,7 +2,7 @@
 /**
  * vtemplate
  *
- * @license ISC http://opensource.org/licenses/isc-license.txt
+ * @license MIT
  */
 
 defined('SYSPATH') OR die('No direct script access.');

@@ -5,8 +5,8 @@
  *
  * @package   View
  * @author    Dion Moult <dion@thinkmoult.com>
- * @copyright (c) 2013 Omni Studios
- * @license   ISC http://opensource.org/licenses/isc-license.txt
+ * @copyright (c) 2013 Dion Moult
+ * @license   MIT
  */
 
 /**
