@@ -5,6 +5,6 @@
 jQuery(function() {
     jQuery(".wymeditor").wymeditor({
         stylesheet: baseurl + "css/main.css",
-        skin: "omni"
+        skin: "cms"
     });
 });

@@ -37,9 +37,11 @@ class Driver_Base_Email
             ->setFrom($from_address)
             ->setTo($to_address)
             ->setBody($body);
-        $transport = Swift_SmtpTransport::newInstance('omnistudios.com', 25)
-            ->setUsername('gerard@omnistudios.com')
-            ->setPassword('gerardeiluvit');
+        $config = Kohana::$config->load('email');
+        $smtp = $config->get('smtp');
+        $transport = Swift_SmtpTransport::newInstance($smtp['host'], $smtp['port'])
+            ->setUsername($smtp['username'])
+            ->setPassword($smtp['password']);
         $mailer = Swift_Mailer::newInstance($transport);
         $mailer->send($message);
     }

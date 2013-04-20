@@ -1,4 +1,4 @@
-WYMeditor.SKINS['omni'] = {
+WYMeditor.SKINS['cms'] = {
 
     init: function(wym) {
 
