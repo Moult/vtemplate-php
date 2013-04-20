@@ -1,7 +1,7 @@
 # What is vtemplate?
 
-vtemplate is a boilerplate setup for starting new projects which combines the
-best of industry standards.
+vtemplate is a boilerplate setup for starting new projects which combines
+various industry standards.
 
 Frontend:
 
