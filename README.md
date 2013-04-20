@@ -3,16 +3,22 @@
 vtemplate is a boilerplate setup for starting new projects. It takes the best of
 the frontend worlds (a customised H5BP 4.0.1) and the backend worlds (KO 3.3,
 PSR-0 loaded apps, Composer), glues them together with an amazing template
-engine (Mustache/KOstache), and provides the infrastructure for good application
-development with PHPSpec2 and Behat, wrapped inside Phing.
+engine (Mustache/KOstache), provides a client-safe CMS with WYMEditor, and
+provides the infrastructure for good application development with PHPSpec2 and
+Behat, wrapped inside Phing.
 
 ## Anything added?
 
- 1. An experimental CMS is implemented with WYMEditor. It's in `modules/cms/`
- 2. Catchall route autoloads Static templates without need for a view. See
+Although most code is vanilla industry standard, I have tweaked the following:
+
+ 1. Catchall route autoloads Static templates without need for a view. See
     `application/classes/Controller/Static.php`. E.g. `static/foo/` will load
     `APPPATH/templates/static/foo.mustache`
- 3. Autorendering templates. See `application/classes/Controller/Core.php`
+ 2. Autorendering templates. See `application/classes/Controller/Core.php`
+ 3. Drivers to help connect KO libraries with framework agnostic domain code.
+    Includes a simplified MySQL Auth driver, Swiftmailer based email driver,
+    KOstache integrated formatting driver, and validation driver. All code in
+    `modules/driver/`
 
 ## Setup
 
