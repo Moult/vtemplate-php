@@ -1,13 +1,27 @@
 # What is vtemplate?
 
-vtemplate is a boilerplate setup for starting new projects.
+vtemplate is a boilerplate setup for starting new projects which combines the
+best of industry standards.
 
-vtemplate combines the best of the frontend worlds (a customised **H5BP 4.0.1**
-with **Stylus**) and the backend worlds (**KO 3.3**, **PSR-0** loaded apps,
-**Composer**), glues them together with an amazing template engine (**Mustache**
-via **KOstache**), provides a client-safe CMS with **WYMEditor**, and provides
-the infrastructure for good application development (**PHPSpec2**, **Behat** and
-**Mink** wrapped inside **Phing**).
+Frontend:
+
+ - H5BP 4.0.1
+ - Stylus
+ - Mustache (KOstache)
+ - WYMEditor-based CMS
+
+Backend:
+
+ - Kohana 3.3
+ - PSR-0
+ - Composer
+ - Swiftmailer
+
+Development:
+
+ - PHPSpec2
+ - Behat + Mink
+ - Phing
 
 ## Anything added?
 
