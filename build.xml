@@ -9,9 +9,7 @@
         <mkdir dir="${builddir}" />
     </target>
     
-    <target name="build" description="Build software for deployment">
-        <!-- Clean old build -->
-        <phingcall target="clean" />
+    <target name="build" description="Build software for launch" depends="clean">
         <exec command="mkdir ${builddir}/deploy/" passthru="true" />
 
         <!-- Resolve dependencies -->
@@ -53,15 +51,17 @@
         -->
     </target>
 
-    <target name="deploy" description="Deploy built software">
+    <target name="deploy" description="Build and deploy latest software">
+        <phingcall target="build" />
         <exec command="mv ../public_html/ ../previous_stage/" passthru="true" />
         <exec command="mv ${builddir}/deploy/ ../public_html/" passthru="true" />
         <exec command="rm -rf ../previous_stage/" passthru="true" />
     </target>
-
-    <target name="install" description="Build and deploy latest software">
+    
+    <target name="package" description="Build and package for distribution">
         <phingcall target="build" />
-        <phingcall target="deploy" />
+        <exec command="cd ${builddir}/deploy/ &amp;&amp; zip -r package.zip * -x *.git*" passthru="true" />
+        <exec command="mv ${builddir}/deploy/package.zip ${builddir}/" passthru="true" />
     </target>
 
     <target name="behat" description="Run Behat">
@@ -133,11 +133,11 @@
         <exec command="phpdoc --title=vtemplate -t ${basedir}/docs/ -d ${appdir}/classes/" passthru="true" />
     </target>
 
-    <target name="main" description="Run tests - minimum requirement for a push">
+    <target name="main" description="Check feature compliance">
         <phingcall target="behat" />
     </target>
 
-    <target name="all" description="Run everything" depends="clean">
+    <target name="analyse" description="Perform a full code analysis" depends="clean">
         <phingcall target="behat" />
         <phingcall target="phpcs" />
         <phingcall target="pdepend" />
@@ -147,7 +147,7 @@
         <phingcall target="phpdoc2" />
     </target>
 
-    <target name="all-log" description="Run everything with CI logs" depends="clean">
+    <target name="analyse-log" description="Run analysis with CI logs" depends="clean">
         <phingcall target="behat" />
         <phingcall target="phpcs-log" />
         <phingcall target="pdepend" />
