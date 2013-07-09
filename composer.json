@@ -12,6 +12,7 @@
         "behat/mink-extension": "*",
         "behat/mink-goutte-driver": "*",
         "behat/mink-selenium2-driver": "*",
+        "behat/mink-sahi-driver": "*",
         "phpspec/phpspec2": "dev-develop"
     },
     "autoload": {"psr-0": {"": "application/classes"}},
