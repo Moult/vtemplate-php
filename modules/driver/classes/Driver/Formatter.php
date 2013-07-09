@@ -1,7 +1,7 @@
 <?php
 
 /**
- * vtemplate Driver/Base/Format.php
+ * vtemplate Driver/Format.php
  *
  * @package   Driver
  * @author    Dion Moult <dion@thinkmoult.com>
@@ -10,7 +10,7 @@
  */
 
 /**
- * Base driver for formatting functionality
+ * Driver for formatting text functionality
  *
  * Allows you to set a data object and it'll format it based on a defined
  * template.
@@ -19,7 +19,7 @@
  *
  * @package Driver
  */
-class Driver_Base_Format
+class Driver_Formatter
 {
     /**
      * Data object

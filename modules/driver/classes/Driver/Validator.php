@@ -1,6 +1,6 @@
 <?php
 /**
- * vtemplate Driver/Base/Validation.php
+ * vtemplate Driver/Validator.php
  *
  * @package   Driver
  * @author    Dion Moult <dion@thinkmoult.com>
@@ -9,13 +9,13 @@
  */
 
 /**
- * Base driver for validation tasks
+ * Driver for validation tasks
  *
  * This uses KO3's built in validation.
  *
- * @package    Driver
+ * @package Driver
  */
-class Driver_Base_Validation
+class Driver_Validator
 {
     /**
      * Validation instance
@@ -33,7 +33,8 @@ class Driver_Base_Validation
      *
      * @param array $input_data
      * @return void
-     */    public function setup(array $input_data)
+     */
+    public function setup(array $input_data)
     {
         $this->instance = Validation::factory($input_data);
     }
@@ -51,6 +52,7 @@ class Driver_Base_Validation
      *                     max_length - passes if chars are less than $arg
      *                     email - passes if it is a valid email
      *                     url - passes if it is a valid url
+     *                     upload_not_empty - passes if upload data was sent
      *                     upload_valid - passes if upload data is valid
      *                     upload_type - passes if upload data fits filetypes in $arg array
      *                     upload_size - passes if upload data is less than size in $arg string (eg: 1M, 2KiB, 1GB)
@@ -59,13 +61,29 @@ class Driver_Base_Validation
      */
     public function rule($key, $rule, $arg = NULL)
     {
-        if ($arg !== NULL)
-        {
-            $this->instance->rule($key, $rule, array(':value', $arg));
-        }
-        else
-        {
-            $this->instance->rule($key, $rule);
+        switch ($rule) {
+            case 'upload_valid':
+                $this->instance->rule($key, 'Upload::valid');
+                break;
+            case 'upload_not_empty':
+                $this->instance->rule($key, 'Upload::not_empty');
+                break;
+            case 'upload_type':
+                $this->instance->rule($key, 'Upload::type', array(':value', $arg));
+                break;
+            case 'upload_size':
+                $this->instance->rule($key, 'Upload::size', array(':value', $arg));
+                break;
+            default:
+                if ($arg !== NULL)
+                {
+                    $this->instance->rule($key, $rule, array(':value', $arg));
+                }
+                else
+                {
+                    $this->instance->rule($key, $rule);
+                }
+                break;
         }
     }
 

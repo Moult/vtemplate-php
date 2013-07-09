@@ -1,7 +1,7 @@
 <?php
 
 /**
- * vtemplate  Driver/Base/Email.php
+ * vtemplate  Driver/Email.php
  *
  * @package   Driver
  * @author    Dion Moult <dion@thinkmoult.com>
@@ -10,16 +10,16 @@
  */
 
 /**
- * A base driver for emailing functionality.
+ * A driver for emailing functionality.
  *
  * Recommended usage:
- * class Driver_Email extends Driver_Base_Email implements Domain_Requirement
+ * class Foo extends Driver_Emailer implements Domain_Requirement
  *
  * This driver uses Swiftmailer.
  *
  * @package Driver
  */
-class Driver_Base_Email
+class Driver_Emailer
 {
     /**
      * Sends out a simple plaintext email.
