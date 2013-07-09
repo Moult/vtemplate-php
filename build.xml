@@ -5,8 +5,63 @@
     <property name="builddir" value="${basedir}/build" />
 
     <target name="clean" description="Prep project for CI">
-        <delete dir="${builddir}" />
+        <exec command="rm -rf ${builddir}" passthru="true" />
         <mkdir dir="${builddir}" />
+    </target>
+    
+    <target name="build" description="Build software for launch" depends="clean">
+        <exec command="mkdir ${builddir}/deploy/" passthru="true" />
+
+        <!-- Resolve dependencies -->
+        <exec command="git submodule update --init --recursive" passthru="true" />
+
+        <!-- Copy over executable code -->
+        <exec command="cp -r application/ ${builddir}/deploy/" passthru="true" />
+        <exec command="cp -r images/ ${builddir}/deploy/" passthru="true" />
+        <exec command="cp -r css/ ${builddir}/deploy/" passthru="true" />
+        <exec command="cp -r js/ ${builddir}/deploy/" passthru="true" />
+        <exec command="mkdir ${builddir}/deploy/modules/" passthru="true" />
+        <exec command="cp -r modules/kostache ${builddir}/deploy/modules/" passthru="true" />
+        <exec command="cp -r modules/errorpage ${builddir}/deploy/modules/" passthru="true" />
+        <exec command="cp -r system/ ${builddir}/deploy/" passthru="true" />
+        <exec command="cp -r robots.txt ${builddir}/deploy/" passthru="true" />
+        <exec command="cp -r crossdomain.xml ${builddir}/deploy/" passthru="true" />
+        <exec command="cp -r index.php ${builddir}/deploy/" passthru="true" />
+        <exec command="cp -r .htaccess ${builddir}/deploy/" passthru="true" />
+
+        <!-- Clean unnecessary details -->
+        <exec command="rm -rf ${builddir}/deploy/application/logs/*" passthru="true" />
+        <exec command="rm -rf ${builddir}/deploy/application/cache/*" passthru="true" />
+        <exec command="rm ${builddir}/deploy/css/*.styl" passthru="true" />
+        <exec command="mv ${builddir}/deploy/js/*.min.js ${builddir}" passthru="true" />
+        <exec command="rm ${builddir}/deploy/js/*.js" passthru="true" />
+        <exec command="mv ${builddir}/*.min.js ${builddir}/deploy/js/" passthru="true" />
+
+        <!-- Configure for live site -->
+        <exec command="sed -i 's/\/vtemplate\//\//g' ${builddir}/deploy/application/bootstrap.php" passthru="true" />
+        <exec command="sed -i 's/RewriteBase \/vtemplate\//RewriteBase \//g' ${builddir}/deploy/.htaccess" passthru="true" />
+        
+        <!-- If server does not support FollowSymlinks
+        <exec command="sed -i 's/  Options +FollowSymlinks/# Options +FollowSymlinks/g' ${builddir}/deploy/.htaccess" passthru="true" />
+        <exec command="sed -i 's/# Options +SymLinksIfOwnerMatch/  Options +SymLinksIfOwnerMatch/g' ${builddir}/deploy/.htaccess" passthru="true" />
+        -->
+        
+        <!-- If server triggers Kohana htaccess error "No input file found"
+        <exec command="sed -i 's/RewriteRule \.\* index\.php\/\$0 \[PT\]/RewriteRule \.\* index\.php?\/\$0 \[PT\]/g' ${builddir}/deploy/.htaccess" passthru="true" />
+        -->
+    </target>
+
+    <target name="deploy" description="Build and deploy latest software">
+        <phingcall target="build" />
+        <exec command="mv ../public_html/ ../previous_stage/" passthru="true" />
+        <exec command="mv ${builddir}/deploy/ ../public_html/" passthru="true" />
+        <exec command="rm -rf ../previous_stage/" passthru="true" />
+    </target>
+    
+    <target name="package" description="Build and package for distribution">
+        <phingcall target="build" />
+        <exec command="cd ${builddir}/deploy/ &amp;&amp; zip -r package.zip * -x *.git*" passthru="true" />
+        <exec command="mv ${builddir}/deploy/package.zip ${builddir}/" passthru="true" />
     </target>
 
     <target name="behat" description="Run Behat">
@@ -78,11 +133,11 @@
         <exec command="phpdoc --title=vtemplate -t ${basedir}/docs/ -d ${appdir}/classes/" passthru="true" />
     </target>
 
-    <target name="main" description="Run tests - minimum requirement for a push">
+    <target name="main" description="Check feature compliance">
         <phingcall target="behat" />
     </target>
 
-    <target name="all" description="Run everything" depends="clean">
+    <target name="analyse" description="Perform a full code analysis" depends="clean">
         <phingcall target="behat" />
         <phingcall target="phpcs" />
         <phingcall target="pdepend" />
@@ -92,7 +147,7 @@
         <phingcall target="phpdoc2" />
     </target>
 
-    <target name="all-log" description="Run everything with CI logs" depends="clean">
+    <target name="analyse-log" description="Run analysis with CI logs" depends="clean">
         <phingcall target="behat" />
         <phingcall target="phpcs-log" />
         <phingcall target="pdepend" />
