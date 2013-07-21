@@ -8,12 +8,16 @@
         <exec command="rm -rf ${builddir}" passthru="true" />
         <mkdir dir="${builddir}" />
     </target>
-    
+
     <target name="build" description="Build software for launch" depends="clean">
         <exec command="mkdir ${builddir}/deploy/" passthru="true" />
 
         <!-- Resolve dependencies -->
         <exec command="git submodule update --init --recursive" passthru="true" />
+        <exec command="rm composer.phar" passthru="true" />
+        <exec command="rm -rf vendor/" passthru="true" />
+        <exec command="curl -s https://getcomposer.org/installer | php" passthru="true" />
+        <exec command="php composer.phar install" passthru="true" />
 
         <!-- Copy over executable code -->
         <exec command="cp -r application/ ${builddir}/deploy/" passthru="true" />
@@ -23,6 +27,7 @@
         <exec command="mkdir ${builddir}/deploy/modules/" passthru="true" />
         <exec command="cp -r modules/kostache ${builddir}/deploy/modules/" passthru="true" />
         <exec command="cp -r modules/errorpage ${builddir}/deploy/modules/" passthru="true" />
+        <exec command="cp -r vendor/ ${builddir}/deploy/" passthru="true" />
         <exec command="cp -r system/ ${builddir}/deploy/" passthru="true" />
         <exec command="cp -r robots.txt ${builddir}/deploy/" passthru="true" />
         <exec command="cp -r crossdomain.xml ${builddir}/deploy/" passthru="true" />
@@ -40,12 +45,12 @@
         <!-- Configure for live site -->
         <exec command="sed -i 's/\/vtemplate\//\//g' ${builddir}/deploy/application/bootstrap.php" passthru="true" />
         <exec command="sed -i 's/RewriteBase \/vtemplate\//RewriteBase \//g' ${builddir}/deploy/.htaccess" passthru="true" />
-        
+
         <!-- If server does not support FollowSymlinks
         <exec command="sed -i 's/  Options +FollowSymlinks/# Options +FollowSymlinks/g' ${builddir}/deploy/.htaccess" passthru="true" />
         <exec command="sed -i 's/# Options +SymLinksIfOwnerMatch/  Options +SymLinksIfOwnerMatch/g' ${builddir}/deploy/.htaccess" passthru="true" />
         -->
-        
+
         <!-- If server triggers Kohana htaccess error "No input file found"
         <exec command="sed -i 's/RewriteRule \.\* index\.php\/\$0 \[PT\]/RewriteRule \.\* index\.php?\/\$0 \[PT\]/g' ${builddir}/deploy/.htaccess" passthru="true" />
         -->
@@ -57,7 +62,7 @@
         <exec command="mv ${builddir}/deploy/ ../public_html/" passthru="true" />
         <exec command="rm -rf ../previous_stage/" passthru="true" />
     </target>
-    
+
     <target name="package" description="Build and package for distribution">
         <phingcall target="build" />
         <exec command="cd ${builddir}/deploy/ &amp;&amp; zip -r package.zip * -x *.git*" passthru="true" />
