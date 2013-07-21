@@ -18,8 +18,8 @@
 class Driver_Validator
 {
     /**
-     * Validation instance
-     * @var Validation
+     * Validator instance
+     * @var Validator
      */
     private $instance;
 
@@ -28,8 +28,7 @@ class Driver_Validator
      * checks on.
      *
      * Example:
-     * $validation = new Validation_Class;
-     * $validation->setup($_POST);
+     * $validator->setup($_POST);
      *
      * @param array $input_data
      * @return void
@@ -43,7 +42,7 @@ class Driver_Validator
      * Adds a rule for checking the input with key $key using a predefined rule.
      *
      * Example:
-     * $validation->rule('username', 'not_empty');
+     * $validator->rule('username', 'not_empty');
      *
      * @param string $key  The key to access the input data value
      * @param string $rule not_empty - passes if there is a value
@@ -91,17 +90,18 @@ class Driver_Validator
      * Adds a custom function to validate the input with key $key.
      *
      * Example:
-     * // will call $this->is_existing_account();
-     * $validation->callback($this, 'is_existing_account');
+     * // will call $this->is_existing_account('FOO', 'BAR');
+     * $validator->setup(['foo' => 'FOO', 'bar' => 'BAR']);
+     * $validator->callback('foo', array($this, 'is_existing_account', array('bar')));
      *
      * @param string $key      The key to access the input data value
      * @param array  $function Array($object, string $function_name) which has a
      *                         return type of bool
-     * @param array  $args     An array of setup keys to be used as arguments in
-     *                         the callback function
+     * @param array  $args     An array of additional setup keys to be used as
+     *                         arguments in the callback function
      * @return void
      */
-    public function callback($key, array $function, array $args)
+    public function callback($key, array $function, array $args = array())
     {
         $data = $this->instance->data();
         foreach ($args as $arg_key => $arg)
@@ -117,7 +117,7 @@ class Driver_Validator
      * are any validation errors.
      *
      * Example:
-     * if ($validation->check() === TRUE) {} // All items are valid.
+     * if ($validator->check() === TRUE) {} // All items are valid.
      *
      * @return bool
      */
@@ -130,7 +130,7 @@ class Driver_Validator
      * Returns an array with any errors found.
      *
      * Example:
-     * print_r($validation->check()); // return array('keyfoo', 'keybar')
+     * print_r($validator->check()); // return array('keyfoo', 'keybar')
      *
      * @return array
      */

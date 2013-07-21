@@ -7,6 +7,13 @@ return array(
         'host' => 'domain.com',
         'port' => 25,
         'username' => 'username',
-        'password' => 'password'
+        'password' => 'password',
+        'ssl' => FALSE
+    ),
+    'default_to' => array(
+        'postmaster@website.com' => 'Postmaster'
+    ),
+    'default_from' => array(
+        'noreply@website.com' => 'Website'
     )
 );
