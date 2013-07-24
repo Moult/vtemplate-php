@@ -19,16 +19,22 @@
         <exec command="curl -s https://getcomposer.org/installer | php" passthru="true" />
         <exec command="php composer.phar install --no-dev" passthru="true" />
 
-        <!-- Copy over executable code -->
+        <!-- Copy over application code -->
         <exec command="cp -r application/ ${builddir}/deploy/" passthru="true" />
-        <exec command="cp -r images/ ${builddir}/deploy/" passthru="true" />
-        <exec command="cp -r css/ ${builddir}/deploy/" passthru="true" />
-        <exec command="cp -r js/ ${builddir}/deploy/" passthru="true" />
+        <exec command="cp -r vendor/ ${builddir}/deploy/" passthru="true" />
+        <exec command="cp -r system/ ${builddir}/deploy/" passthru="true" />
+
+        <!-- Copy over modules -->
         <exec command="mkdir ${builddir}/deploy/modules/" passthru="true" />
         <exec command="cp -r modules/kostache ${builddir}/deploy/modules/" passthru="true" />
         <exec command="cp -r modules/errorpage ${builddir}/deploy/modules/" passthru="true" />
-        <exec command="cp -r vendor/ ${builddir}/deploy/" passthru="true" />
-        <exec command="cp -r system/ ${builddir}/deploy/" passthru="true" />
+
+        <!-- Copy over resources -->
+        <exec command="cp -r images/ ${builddir}/deploy/" passthru="true" />
+        <exec command="cp -r css/ ${builddir}/deploy/" passthru="true" />
+        <exec command="cp -r js/ ${builddir}/deploy/" passthru="true" />
+
+        <!-- Copy over top level code -->
         <exec command="cp -r robots.txt ${builddir}/deploy/" passthru="true" />
         <exec command="cp -r crossdomain.xml ${builddir}/deploy/" passthru="true" />
         <exec command="cp -r index.php ${builddir}/deploy/" passthru="true" />
