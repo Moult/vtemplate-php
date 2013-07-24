@@ -6,6 +6,10 @@ defined('SYSPATH') OR die('No direct script access.');
  */
 class View_Layout
 {
+    public $page_title = 'vtemplate';
+    public $meta_description = 'Your default page description';
+    public $meta_keywords = 'seo, keywords, go, here';
+
     /**
      * The base URL of the website.
      *
