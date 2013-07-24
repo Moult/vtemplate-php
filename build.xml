@@ -17,7 +17,7 @@
         <exec command="rm composer.phar" passthru="true" />
         <exec command="rm -rf vendor/" passthru="true" />
         <exec command="curl -s https://getcomposer.org/installer | php" passthru="true" />
-        <exec command="php composer.phar install" passthru="true" />
+        <exec command="php composer.phar install --no-dev" passthru="true" />
 
         <!-- Copy over executable code -->
         <exec command="cp -r application/ ${builddir}/deploy/" passthru="true" />
