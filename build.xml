@@ -3,6 +3,8 @@
     <property name="basedir" value="${project.basedir}" />
     <property name="appdir" value="${basedir}/application" />
     <property name="builddir" value="${basedir}/build" />
+    <property name="deploydir" value="../public_html" />
+    <property name="chown" value="apache:apache" />
 
     <target name="clean" description="Prep project for CI">
         <exec command="rm -rf ${builddir}" passthru="true" />
@@ -64,9 +66,11 @@
 
     <target name="deploy" description="Build and deploy latest software">
         <phingcall target="build" />
-        <exec command="mv ../public_html/ ../previous_stage/" passthru="true" />
-        <exec command="mv ${builddir}/deploy/ ../public_html/" passthru="true" />
-        <exec command="rm -rf ../previous_stage/" passthru="true" />
+        <exec command="mv ${deploydir}/ ${deploydir}_previous/" passthru="true" />
+        <exec command="mv ${builddir}/deploy/ ${deploydir}/" passthru="true" />
+        <exec command="cp -r ${deploydir}_previous/application/config/*.php ${deploydir}/application/config/" passthru="true" />
+        <exec command="rm -rf ${deploydir}_previous/" passthru="true" />
+        <exec command="chown -R ${chown} ${deploydir}/" passthru="true" />
     </target>
 
     <target name="package" description="Build and package for distribution">
