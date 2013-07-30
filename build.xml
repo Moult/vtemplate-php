@@ -37,6 +37,7 @@
         <exec command="cp -r js/ ${builddir}/deploy/" passthru="true" />
 
         <!-- Copy over top level code -->
+        <exec command="cp -r humans.txt ${builddir}/deploy/" passthru="true" />
         <exec command="cp -r robots.txt ${builddir}/deploy/" passthru="true" />
         <exec command="cp -r crossdomain.xml ${builddir}/deploy/" passthru="true" />
         <exec command="cp -r index.php ${builddir}/deploy/" passthru="true" />
