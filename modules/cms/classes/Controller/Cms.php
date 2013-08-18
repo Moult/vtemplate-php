@@ -105,6 +105,7 @@ class Controller_CMS extends Controller_Core
                 $tidy_string = str_replace('&#160;', '', $tidy_string);
                 $tidy_string = preg_replace('/<[a-z]* style=".*">(\{\{[#\/^].*\}\})<\/[a-z]*>/i', '${1}', $content_string);
                 $tidy_string = str_replace(URL::base(), '{{baseurl}}', $tidy_string);
+                $tidy_string = str_replace('{{&gt;', '{{>', $tidy_string);
 
                 file_put_contents($template_file, (string) $tidy_string);
 

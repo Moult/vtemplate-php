@@ -3,6 +3,7 @@
 defined('SYSPATH') OR die('No direct script access.');
 
 return array(
+    'password' => 'cms',
     'editable_pages' => array(
         /*
         array(
