@@ -35,6 +35,9 @@ Although most code is vanilla industry standard, I have tweaked the following:
     Includes a simplified MySQL Auth driver, Swiftmailer based email driver,
     KOstache integrated formatting driver, and validation driver. All code in
     `modules/driver/`
+ 4. The WYMEditor-based CMS contains a customised version of WYMEditor. Included
+    is a login dashboard, a themed editor, and support for more blocks such as
+    article, section, divisions, citations, and code.
 
 ## Setup
 
