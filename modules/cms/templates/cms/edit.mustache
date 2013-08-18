@@ -1,0 +1,40 @@
+{{#page_saved}}
+<p id="notification">
+    Your changes have been saved successfully.
+</p>
+{{/page_saved}}
+
+{{#mustache_error}}
+<p id="notification">
+    Oh no! We think you broke the page. Please make sure you do not edit any &#123;&#123;tags&#125;&#125;
+</p>
+{{/mustache_error}}
+
+<h1>CMS: Edit Pages</h1>
+
+<nav>
+    {{#categories}}
+    <div class="category">
+        <h2 class="page">{{category_name}}</h2>
+        <ul>
+        {{#pages}}
+            <li><a href="{{baseurl}}cms/edit/{{page}}">{{name}}</a></li>
+        {{/pages}}
+        </ul>
+    </div>
+    {{/categories}}
+</nav>
+
+<form method="post" action="">
+    <textarea name="content_string" class="wymeditor">{{#show_editor}}{{content_string}}{{/show_editor}}{{^show_editor}}&lt;p&gt;Please select a page to edit&lt;/p&gt;{{/show_editor}}</textarea>
+    {{#show_editor}}
+    <input type="submit" name="submit" value="Save Page" class="wymupdate">
+    {{/show_editor}}
+</form>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="{{baseurl}}js/vendor/jquery-1.8.3.min.js"><\/script>')</script>
+<script>var baseurl = "{{baseurl}}";</script>
+<script src="{{baseurl}}js/vendor/wymeditor/jquery-migrate.min.js"></script>
+<script src="{{baseurl}}js/vendor/wymeditor/jquery.wymeditor.js"></script>
+<script src="{{baseurl}}js/cms.min.js"></script>

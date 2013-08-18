@@ -1,17 +1,17 @@
 /*
  * WYMeditor : what you see is What You Mean web-based editor
- * Copyright (c) 2005 - 2012 Jean-Francois Hovinne, http://www.wymeditor.org/
+ * Copyright (c) 2005 - 2009 Jean-Francois Hovinne, http://www.wymeditor.org/
  * Dual licensed under the MIT (MIT-license.txt)
  * and GPL (GPL-license.txt) licenses.
  *
  * For further information visit:
  *        http://www.wymeditor.org/
- * 
+ *
  * File Name:
  *        wymeditor.css
  *        Main editor css file.
  *        See the documentation for more info.
- * 
+ *
  * File Authors:
  *        Jean-Francois Hovinne (jf.hovinne a-t wymeditor dotorg)
  *        Daniel Reszka (d.reszka a-t wymeditor dotorg)
@@ -20,10 +20,11 @@
 /* VISUAL FEEDBACK */
 
 /* basic */
-  body  { background: #F0F0ED; margin: 0; }
- 
+  body  { background: #E6FFC5;}
+
 /* make HTML blocs visible */
   p,
+  div,
   h1,
   h2,
   h3,
@@ -35,10 +36,9 @@
   table,
   blockquote,
   pre           { background: #FFFFFF no-repeat 2px 2px;
-                  border-bottom: 2px solid #CCC;
                   padding:8px 5px 5px;
                   margin:10px; }
-  td            { background: #F0F4F8; height: 1.6em; }
+  td            { background: #F0F4F8; }
   th            { background: #ffffcc; }
   ul,
   ol            { border-left:20px solid #B9C4D0; padding:0px 5px; }
@@ -47,9 +47,13 @@
   td            { width: 25%; }
   blockquote    { margin-left: 30px; }
   pre           { background-color:transparent; border: 1px solid white; }
- 
+
+/* Gecko min height fix */
+  td            { height: 1.6em; }
+
 /* labels */
   p         { background-image: url(lbl-p.png); }
+  div       { background-image: url(lbl-div.png); }
   h1        { background-image: url(lbl-h1.png); }
   h2        { background-image: url(lbl-h2.png); }
   h3        { background-image: url(lbl-h3.png); }
@@ -58,15 +62,6 @@
   h6        { background-image: url(lbl-h6.png); }
   blockquote{ background-image: url(lbl-blockquote.png); }
   pre       { background-image: url(lbl-pre.png); }
-
-/* labels for specific classes */
-  p.align-left   { background-image: url(lbl-p-align-left.png); }
-  p.align-right  { background-image: url(lbl-p-align-right.png); }
-  p.align-center { background-image: url(lbl-p-align-center.png); }
-  p.date         { background-image: url(lbl-p-date.png); }
-  p.important    { background-image: url(lbl-p-important.png); }
-  p.note         { background-image: url(lbl-p-note.png); }
-  p.teaser       { background-image: url(lbl-p-teaser.png); }
 
 /* specific HTML elements */
   caption   { text-align: left; }
@@ -93,3 +88,7 @@
     border: 1px solid red !important;
     font-size: 12px !important;
     font-weight: normal; }
+
+/* Spacer BRs shouldn't add much whitespace */
+br { height: 5px; line-height: 5px; }
+

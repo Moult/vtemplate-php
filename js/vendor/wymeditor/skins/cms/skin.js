@@ -38,5 +38,7 @@ WYMeditor.SKINS['cms'] = {
 
         $(".wym_containers_h5").remove();
         $(".wym_containers_h6").remove();
+
+	$(".wym_iframe").height(($(window).height() * 0.9));
     }
 };

@@ -142,6 +142,12 @@ Route::set('homepage', '')
  * CMS module routes
  */
 /*
+Route::set('cms', 'cms')
+    ->defaults(array(
+        'controller' => 'cms',
+        'action'     => 'dashboard'
+    ));
+
 Route::set('cms editor', 'cms/edit(/<template_path>)', array('template_path' => '.*'))
     ->defaults(array(
         'controller' => 'cms',

@@ -16,6 +16,33 @@
  */
 class Controller_CMS extends Controller_Core
 {
+    public function action_dashboard()
+    {
+        $this->layout = 'cms';
+        $this->view = new View_Cms;
+        $this->template = 'cms/dashboard';
+
+        if ($this->request->method() === HTTP_Request::POST
+            AND $this->request->post('submit') === 'Log in')
+        {
+            $config = Kohana::$config->load('cms');
+            if ($this->request->post('password') === $config['password'])
+            {
+                Session::instance()->set('cms_logged_in', TRUE);
+            }
+            else
+            {
+                $this->view->error = TRUE;
+            }
+        }
+        if ($this->request->method() === HTTP_Request::POST
+            AND $this->request->post('submit') === 'Log out')
+        {
+            Session::instance()->delete('cms_logged_in');
+            $this->redirect(Route::get('cms')->uri());
+        }
+    }
+
     /**
      * The editing page
      *
@@ -23,9 +50,12 @@ class Controller_CMS extends Controller_Core
      */
     public function action_edit()
     {
+        if ( ! (bool) Session::instance()->get('cms_logged_in', FALSE))
+            return $this->redirect(Route::get('cms')->uri());
+
         // Define the view we are using
         $this->layout = 'cms';
-        $this->template = 'Cms/Edit';
+        $this->template = 'cms/edit';
 
         // Are we editing a file?
         $template_path = $this->request->param('template_path');
@@ -47,7 +77,7 @@ class Controller_CMS extends Controller_Core
             preg_match_all('/\{\{[#\/^]*?.*?\}\}/', $template_content, $current_mustaches);
             preg_match_all('/\{\{[#\/^]*?.*?\}\}/', $content_string, $proposed_mustaches);
 
-            if ($current_mustaches === $proposed_mustaches)
+            if ($current_mustaches >= $proposed_mustaches)
             {
                 // Do HTML Tidy preprocessing
                 $tidy_config = array(
@@ -74,6 +104,7 @@ class Controller_CMS extends Controller_Core
                 $tidy_string = str_replace('&nbsp;', '', $tidy_string);
                 $tidy_string = str_replace('&#160;', '', $tidy_string);
                 $tidy_string = preg_replace('/<[a-z]* style=".*">(\{\{[#\/^].*\}\})<\/[a-z]*>/i', '${1}', $content_string);
+                $tidy_string = str_replace(URL::base(), '{{baseurl}}', $tidy_string);
 
                 file_put_contents($template_file, (string) $tidy_string);
 

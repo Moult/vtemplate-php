@@ -1,0 +1,52 @@
+<h1>CMS: Dashboard</h1>
+
+{{^logged_in}}
+<section id="login">
+    {{#error}}
+    <p class="error">
+        Whoops! Your password is incorrect.
+    </p>
+    {{/error}}
+    <form action="" method="post">
+        <label for="password">Please type in your password</label>
+        <input type="password" name="password">
+        <input type="submit" name="submit" value="Log in">
+    </form>
+</section>
+{{/logged_in}}
+
+{{#logged_in}}
+<nav>
+    <div class="category">
+        <h2 class="page">General</h2>
+        <ul>
+            <li><a href="{{baseurl}}cms/edit/">Edit pages</a></li>
+        </ul>
+    </div>
+</nav>
+
+<section id="intro">
+    <h2>
+        Welcome
+    </h2>
+    <p>
+        Please choose a task above to get started.
+    </p>
+    <h3>
+        What is a CMS?
+    </h3>
+    <p>
+        CMS stands for <em>Content Management System</em>. This allows you to edit portions of your website's content, such as the text and images on each page.
+    </p>
+    <h3>
+        A word of warning
+    </h3>
+    <p>
+        This system is highly experimental. We recommend using an up-to-date browser such as Chrome, Firefox or Opera, and crossing your fingers.
+    </p>
+</section>
+
+<form action="" method="post">
+    <input type="submit" name="submit" value="Log out">
+</form>
+{{/logged_in}}

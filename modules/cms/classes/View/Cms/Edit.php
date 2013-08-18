@@ -14,7 +14,7 @@
  *
  * @package View
  */
-class View_CMS_Edit extends View_Layout
+class View_CMS_Edit extends View_Cms
 {
     /**
      * Stores the template content as a string
@@ -31,6 +31,7 @@ class View_CMS_Edit extends View_Layout
     {
         $template_content = $this->template_content;
 
+        $template_content = str_replace('{{baseurl}}', URL::base(), $template_content);
         $template_content = str_replace('{{', '&#123;&#123;', $template_content);
         $template_content = str_replace('}}', '&#125;&#125;', $template_content);
         return $template_content;

@@ -49,7 +49,7 @@
 
 /*WYM_IFRAME*/
         .wym_skin_cms .wym_iframe             { width: 98%;}
-        .wym_skin_cms .wym_iframe iframe      { width: 100%; height: 500px; border: 1px solid gray; background: white }
+        .wym_skin_cms .wym_iframe iframe      { width: 100%; min-height: 100%; border: 1px solid gray; background: white }
 
 
 /*AREAS*/
@@ -99,6 +99,11 @@
         .wym_skin_cms .wym_buttons li.wym_tools_unordered_list a{ background-position: 0 -72px;}
         .wym_skin_cms .wym_buttons li.wym_tools_indent a        { background-position: 0 -574px;}
         .wym_skin_cms .wym_buttons li.wym_tools_outdent a       { background-position: 0 -598px;}
+        .wym_skin_cms .wym_buttons li.wym_tools_inject a        { background-position: 0 -662px;}
+        .wym_skin_cms .wym_buttons li.wym_tools_append a        { background-position: 0 -686px;}
+        .wym_skin_cms .wym_buttons li.wym_tools_code a          { background-position: 0 -734px;}
+        .wym_skin_cms .wym_buttons li.wym_tools_citation a      { background-position: 0 -758px;}
+        .wym_skin_cms .wym_buttons li.wym_tools_clear a         { background-position: 0 -710px;}
         .wym_skin_cms .wym_buttons li.wym_tools_undo a          { background-position: 0 -502px;}
         .wym_skin_cms .wym_buttons li.wym_tools_redo a          { background-position: 0 -526px;}
         .wym_skin_cms .wym_buttons li.wym_tools_link a          { background-position: 0 -96px;}
@@ -110,7 +115,7 @@
         .wym_skin_cms .wym_buttons li.wym_tools_preview a       { background-position: 0 -408px;}
 
 /*DECORATION*/
-        .wym_skin_cms .wym_section h2             { background: #652D8A; color: #EEE; display: block; text-align: center; padding: 10px; }
+        .wym_skin_cms .wym_section h2             { background: #91BC45; color: #EEE; display: block; text-align: center; padding: 10px; }
         .wym_skin_cms .wym_section h2 span        { color: #EEE; }
         .wym_skin_cms .wym_panel                  { padding: 0; border: solid gray; border-width: 1px; background: white; }
         .wym_skin_cms .wym_panel ul               { margin: 2px 0 5px; font-size: 12px; }
@@ -121,17 +126,9 @@
         .wym_skin_cms .wym_dropdown ul            { border: solid gray; border-width: 0 1px 1px 1px; margin-left: -1px; padding: 5px 10px 5px 3px;}
         .wym_area_main { margin-right: 205px !important; margin-left: 220px !important; }
         .wym_status { display: none; }
-        input[type=submit] { border: 0px; background-color: #652D8A; color: #EEE; font-size: 20px; padding: 15px; width: 100%; display: block; cursor: pointer; }
-        #notification { display: block; text-align: center; color: #EEE; background-color: #333; padding: 20px; margin: 0px; }
-        h1 { display: block; text-align: center; color: #EEE; background-color: #652D8A; padding: 20px; margin: 0px; font-size: 20px; }
-        h2.page { clear: both; display: block; color: #EEE; background-color: #333; padding: 10px; padding-left: 20px; margin: 0px; font-size: 15px; }
-        h2.page+ul { overflow: hidden; display: block; background-color: #333; margin: 0px; font-size: 12px; list-style-type: none; padding-left: 20px; }
-        h2.page+ul li { float: left; padding: 5px; background-color: #652D8A; margin-right: 10px; margin-bottom: 10px; }
-        h2.page+ul li:hover { background-color: #8D3FC1; }
-        h2.page+ul li a { color: #EEE; text-decoration: none; }
         form { clear: both; }
-        
 /*DIALOGS*/
+        .wym_dialog { background-color: #FFF; }
         .wym_dialog div.row         { margin-bottom: 5px;}
         .wym_dialog div.row input   { margin-right: 5px;}
         .wym_dialog div.row label   { float: left; width: 150px; display: block; text-align: right; margin-right: 10px; }
