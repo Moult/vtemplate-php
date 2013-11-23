@@ -91,11 +91,12 @@ class Controller_CMS extends Controller_Core
                     'indent' => TRUE,
                     'indent-spaces' => 4,
                     'vertical-space' => TRUE,
+                    'new-blocklevel-tags' => 'aside',
                     'wrap' => 80
                 );
 
                 $tidy = new tidy;
-                $tidy->parseString($content_string, $tidy_config);
+                $tidy->parseString(utf8_decode($content_string), $tidy_config);
                 $tidy->cleanRepair();
                 $tidy_string = (string) $tidy;
 
@@ -103,8 +104,8 @@ class Controller_CMS extends Controller_Core
                 // Remove blank spaces
                 $tidy_string = str_replace('&nbsp;', '', $tidy_string);
                 $tidy_string = str_replace('&#160;', '', $tidy_string);
-                $tidy_string = preg_replace('/<[a-z]* style=".*">(\{\{[#\/^].*\}\})<\/[a-z]*>/i', '${1}', $content_string);
-                $tidy_string = str_replace(URL::base(), '{{baseurl}}', $tidy_string);
+                $tidy_string = preg_replace('/<[a-z]* style=".*">(\{\{[#\/^].*\}\})<\/[a-z]*>/i', '${1}', $tidy_string);
+                $tidy_string = str_replace('"'.URL::base(), '"{{baseurl}}', $tidy_string);
                 $tidy_string = str_replace('{{&gt;', '{{>', $tidy_string);
 
                 file_put_contents($template_file, (string) $tidy_string);
