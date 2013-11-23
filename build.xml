@@ -158,7 +158,7 @@
     </target>
 
     <target name="phpdoc2" description="Run phpDocumentor2">
-        <exec command="phpdoc --title=vtemplate -t ${basedir}/docs/ -d ${dir.app}/classes/" passthru="true" />
+        <exec command="phpdoc --title=vtemplate -t ${project.basedir}/docs/ -d ${dir.app}/classes/" passthru="true" />
     </target>
 
     <target name="main" description="Check Behat feature compliance">
