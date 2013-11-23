@@ -21,12 +21,12 @@
  */
 class Driver_Emailer
 {
-    private $instance;
-    private $config;
-    private $to;
-    private $from;
-    private $body = '';
-    private $html = NULL;
+    protected $instance;
+    protected $config;
+    protected $to;
+    protected $from;
+    protected $body = '';
+    protected $html = NULL;
 
     public function __construct()
     {

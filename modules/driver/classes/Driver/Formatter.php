@@ -25,7 +25,7 @@ class Driver_Formatter
      * Data object
      * @var Data
      */
-    private $data;
+    protected $data;
 
     /**
      * Store a data object

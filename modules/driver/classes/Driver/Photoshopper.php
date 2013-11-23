@@ -17,8 +17,8 @@
  */
 class Driver_Photoshopper
 {
-    private $source;
-    private $destination;
+    protected $source;
+    protected $destination;
 
     /**
      * Sets the source image to manipulate, and the destination to save the result

@@ -21,7 +21,7 @@ class Driver_Validator
      * Validator instance
      * @var Validator
      */
-    private $instance;
+    protected $instance;
 
     /**
      * Loads in the input data from the user that you want to perform validation
