@@ -334,10 +334,8 @@ FileETag None
 
 <IfModule mod_rewrite.c>
   Options +FollowSymlinks
-# Options +SymLinksIfOwnerMatch
   RewriteEngine On
-# RewriteBase /
-  RewriteBase /vtemplate/
+  RewriteBase /@SUBDIR@
 </IfModule>
 
 

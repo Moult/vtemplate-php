@@ -1,83 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="vtemplate" default="main">
-    <property name="basedir" value="${project.basedir}" />
-    <property name="appdir" value="${basedir}/application" />
-    <property name="builddir" value="${basedir}/build" />
-    <property name="deploydir" value="../public_html" />
-    <property name="chown" value="apache:apache" />
+    <property file="./build.properties" />
 
-    <target name="clean" description="Prep project for CI">
-        <exec command="rm -rf ${builddir}" passthru="true" />
-        <mkdir dir="${builddir}" />
+    <target name="clean" description="Purge build directory">
+        <exec command="rm -rf ${dir.build}" passthru="true" />
+        <mkdir dir="${dir.build}" />
     </target>
 
     <target name="build" description="Build software for launch" depends="clean">
-        <exec command="mkdir ${builddir}/deploy/" passthru="true" />
-
-        <!-- Resolve dependencies -->
+        <mkdir dir="${dir.build}/deploy" />
         <exec command="git submodule update --init --recursive" passthru="true" />
         <exec command="rm composer.phar" passthru="true" />
         <exec command="rm -rf vendor/" passthru="true" />
         <exec command="curl -s https://getcomposer.org/installer | php" passthru="true" />
         <exec command="php composer.phar install --no-dev" passthru="true" />
 
-        <!-- Copy over application code -->
-        <exec command="cp -r application/ ${builddir}/deploy/" passthru="true" />
-        <exec command="cp -r vendor/ ${builddir}/deploy/" passthru="true" />
-        <exec command="cp -r system/ ${builddir}/deploy/" passthru="true" />
+        <copy todir="${dir.build}/deploy/">
+            <fileset dir="." excludes=".git**,build**,**/*.sql,*.md,Kohana*,composer*,behat*,bin**,licenses**,features**,application/logs/*,application/cache/*,css/*.styl">
+            </fileset>
+        </copy>
 
-        <!-- Copy over modules -->
-        <exec command="mkdir ${builddir}/deploy/modules/" passthru="true" />
-        <exec command="cp -r modules/kostache ${builddir}/deploy/modules/" passthru="true" />
-        <exec command="cp -r modules/errorpage ${builddir}/deploy/modules/" passthru="true" />
+        <reflexive>
+            <fileset dir="${dir.build}/deploy" includes=".htaccess,application/bootstrap.php,application/config/database.php">
+            </fileset>
+            <filterchain>
+                <replacetokens>
+                    <token key="SUBDIR" value="${dir.sub}" />
+                    <token key="DB_HOST" value="${db.host}" />
+                    <token key="DB_USER" value="${db.user}" />
+                    <token key="DB_PASS" value="${db.pass}" />
+                    <token key="DB_NAME" value="${db.name}" />
+                </replacetokens>
+            </filterchain>
+        </reflexive>
 
-        <!-- Copy over resources -->
-        <exec command="cp -r images/ ${builddir}/deploy/" passthru="true" />
-        <exec command="cp -r css/ ${builddir}/deploy/" passthru="true" />
-        <exec command="cp -r js/ ${builddir}/deploy/" passthru="true" />
+        <if>
+            <equals arg1="${quirk.followsymlinks}" arg2="true" />
+            <then>
+                <reflexive>
+                    <fileset dir="${dir.build}/deploy" includes=".htaccess">
+                    </fileset>
+                    <filterchain>
+                        <replaceregexp>
+                            <regexp pattern="Options \+FollowSymlinks" replace="Options +SymLinksIfOwnerMatch" />
+                        </replaceregexp>
+                    </filterchain>
+                </reflexive>
+            </then>
+        </if>
+        <if>
+            <equals arg1="${quirk.kohanarewrite}" arg2="true" />
+            <then>
+                <reflexive>
+                    <fileset dir="${dir.build}/deploy" includes=".htaccess">
+                    </fileset>
+                    <filterchain>
+                        <replaceregexp>
+                            <regexp pattern="RewriteRule \.\* index\.php/\$0 \[PT\]" replace="RewriteRule .* index.php?/\$0 [PT]" />
+                        </replaceregexp>
+                    </filterchain>
+                </reflexive>
+            </then>
+        </if>
+    </target>
 
-        <!-- Copy over top level code -->
-        <exec command="cp -r humans.txt ${builddir}/deploy/" passthru="true" />
-        <exec command="cp -r robots.txt ${builddir}/deploy/" passthru="true" />
-        <exec command="cp -r crossdomain.xml ${builddir}/deploy/" passthru="true" />
-        <exec command="cp -r index.php ${builddir}/deploy/" passthru="true" />
-        <exec command="cp -r .htaccess ${builddir}/deploy/" passthru="true" />
+    <target name="updatedb" description="Load the latest database data into the database">
+        <exec command="mysqladmin -h ${db.host} -u${db.user} -p${db.pass} drop ${db.name}" passthru="true" />
+        <exec command="mysql -h ${db.host} -u ${db.user} -p${db.pass} -e 'create database `${db.name}`'" passthru="true" />
 
-        <!-- Clean unnecessary details -->
-        <exec command="rm -rf ${builddir}/deploy/application/logs/*" passthru="true" />
-        <exec command="rm -rf ${builddir}/deploy/application/cache/*" passthru="true" />
-        <exec command="rm ${builddir}/deploy/css/*.styl" passthru="true" />
-        <exec command="mv ${builddir}/deploy/js/*.min.js ${builddir}" passthru="true" />
-        <exec command="rm ${builddir}/deploy/js/*.js" passthru="true" />
-        <exec command="mv ${builddir}/*.min.js ${builddir}/deploy/js/" passthru="true" />
-
-        <!-- Configure for live site -->
-        <exec command="sed -i 's/\/vtemplate\//\//g' ${builddir}/deploy/application/bootstrap.php" passthru="true" />
-        <exec command="sed -i 's/RewriteBase \/vtemplate\//RewriteBase \//g' ${builddir}/deploy/.htaccess" passthru="true" />
-
-        <!-- If server does not support FollowSymlinks
-        <exec command="sed -i 's/  Options +FollowSymlinks/# Options +FollowSymlinks/g' ${builddir}/deploy/.htaccess" passthru="true" />
-        <exec command="sed -i 's/# Options +SymLinksIfOwnerMatch/  Options +SymLinksIfOwnerMatch/g' ${builddir}/deploy/.htaccess" passthru="true" />
-        -->
-
-        <!-- If server triggers Kohana htaccess error "No input file found"
-        <exec command="sed -i 's/RewriteRule \.\* index\.php\/\$0 \[PT\]/RewriteRule \.\* index\.php?\/\$0 \[PT\]/g' ${builddir}/deploy/.htaccess" passthru="true" />
-        -->
+        <exec command="mysql -h ${db.host} -u ${db.user} -p${db.pass} ${db.name} &lt; DATABASE.sql" passthru="true" />
     </target>
 
     <target name="deploy" description="Build and deploy latest software">
         <phingcall target="build" />
-        <exec command="mv ${deploydir}/ ${deploydir}_previous/" passthru="true" />
-        <exec command="mv ${builddir}/deploy/ ${deploydir}/" passthru="true" />
-        <exec command="cp -r ${deploydir}_previous/application/config/*.php ${deploydir}/application/config/" passthru="true" />
-        <exec command="rm -rf ${deploydir}_previous/" passthru="true" />
-        <exec command="chown -R ${chown} ${deploydir}/" passthru="true" />
+        <move file="${dir.build}/deploy/" tofile="${dir.deploy}" />
+        <chown file="${dir.deploy}" user="${chown.user}" group="${chown.group}" failonerror="false" />
+        <if>
+            <equals arg1="${chmod.required}" arg2="true" />
+            <then>
+                <chmod file="${dir.deploy}/application/logs" mode="0777" />
+                <chmod file="${dir.deploy}/application/cache" mode="0777" />
+            </then>
+        </if>
     </target>
 
     <target name="package" description="Build and package for distribution">
         <phingcall target="build" />
-        <exec command="cd ${builddir}/deploy/ &amp;&amp; zip -r package.zip * -x *.git*" passthru="true" />
-        <exec command="mv ${builddir}/deploy/package.zip ${builddir}/" passthru="true" />
+        <exec command="cd ${dir.build}/deploy/ &amp;&amp; zip -r package.zip * -x *.git*" passthru="true" />
+        <move file="${dir.build}/deploy/package.zip" tofile="${dir.build}/package.zip" />
     </target>
 
     <target name="behat" description="Run Behat">
@@ -86,7 +96,7 @@
 
     <target name="phpcs" description="Run PHP_CodeSniffer">
         <phpcodesniffer standard="Kohana">
-            <fileset dir="${appdir}">
+            <fileset dir="${dir.app}">
                 <include name="**/*.php" />
                 <exclude name="**/cache/mustache/*" />
             </fileset>
@@ -95,36 +105,36 @@
 
     <target name="phpcs-log" description="Run PHP_CodeSniffer with CI log">
         <phpcodesniffer standard="Kohana">
-            <fileset dir="${appdir}">
+            <fileset dir="${dir.app}">
                 <include name="**/*.php" />
                 <exclude name="**/cache/mustache/*" />
             </fileset>
-            <formatter type="checkstyle" outfile="${builddir}/checkstyle-result.xml" />
+            <formatter type="checkstyle" outfile="${dir.build}/checkstyle-result.xml" />
         </phpcodesniffer>
     </target>
 
     <target name="pdepend" description="Run pdepend">
         <phpdepend>
-            <fileset dir="${appdir}/classes">
+            <fileset dir="${dir.app}/classes">
                 <include name="**/*.php" />
             </fileset>
-            <logger type="jdepend-xml" outfile="${builddir}/jdepend.xml" />
-            <logger type="jdepend-chart" outfile="${builddir}/dependencies.svg" />
-            <logger type="overview-pyramid" outfile="${builddir}/overview-pyramid.svg" />
+            <logger type="jdepend-xml" outfile="${dir.build}/jdepend.xml" />
+            <logger type="jdepend-chart" outfile="${dir.build}/dependencies.svg" />
+            <logger type="overview-pyramid" outfile="${dir.build}/overview-pyramid.svg" />
         </phpdepend>
     </target>
 
     <target name="phpmd" description="Run phpmd">
-        <exec command="phpmd ${appdir} text codesize,unusedcode,naming,design --exclude '${appdir}/cache/*'" passthru="true" />
+        <exec command="phpmd ${dir.app} text codesize,unusedcode,naming,design --exclude '${dir.app}/cache/*'" passthru="true" />
     </target>
 
     <target name="phpmd-log" description="Run phpmd with CI log">
-        <exec command="phpmd ${appdir} text codesize,unusedcode,naming,design --exclude '${appdir}/cache/*' --reportfile ${builddir}/pmd.xml" passthru="true" />
+        <exec command="phpmd ${dir.app} text codesize,unusedcode,naming,design --exclude '${dir.app}/cache/*' --reportfile ${dir.build}/pmd.xml" passthru="true" />
     </target>
 
     <target name="phpcpd" description="Run phpcpd">
         <phpcpd>
-            <fileset dir="${appdir}">
+            <fileset dir="${dir.app}">
                 <include name="**/*.php" />
                 <exclude name="**/cache/mustache/*" />
             </fileset>
@@ -133,23 +143,23 @@
 
     <target name="phpcpd-log" description="Run phpcpd with CI log">
         <phpcpd>
-            <fileset dir="${appdir}">
+            <fileset dir="${dir.app}">
                 <include name="**/*.php" />
                 <exclude name="**/cache/mustache/*" />
             </fileset>
-            <formatter type="pmd" outfile="${builddir}/cpd.xml" />
+            <formatter type="pmd" outfile="${dir.build}/cpd.xml" />
         </phpcpd>
     </target>
 
     <target name="phpdcd" description="Run phpdcd">
-        <exec command="phpdcd --exclude ${appdir}/classes/auth/ --exclude ${appdir}/cache/ ${appdir}" passthru="true" />
+        <exec command="phpdcd --exclude ${dir.app}/classes/auth/ --exclude ${dir.app}/cache/ ${dir.app}" passthru="true" />
     </target>
 
     <target name="phpdoc2" description="Run phpDocumentor2">
-        <exec command="phpdoc --title=vtemplate -t ${basedir}/docs/ -d ${appdir}/classes/" passthru="true" />
+        <exec command="phpdoc --title=vtemplate -t ${basedir}/docs/ -d ${dir.app}/classes/" passthru="true" />
     </target>
 
-    <target name="main" description="Check feature compliance">
+    <target name="main" description="Check Behat feature compliance">
         <phingcall target="behat" />
     </target>
 
