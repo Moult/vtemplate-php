@@ -2,29 +2,32 @@
 <project name="vtemplate" default="main">
     <property file="build.properties" />
 
-    <target name="clean" description="Purge build directory">
+    <target name="init" description="Prepares output directories for Phing">
         <exec command="rm -rf ${dir.build}" passthru="true" />
         <mkdir dir="${dir.build}" />
+        <mkdir dir="${dir.make}" />
+        <mkdir dir="${dir.install}" />
+        <mkdir dir="${dir.docs}" />
+        <mkdir dir="${dir.reports}" />
     </target>
 
-    <target name="build" description="Build and configure software for launch" depends="clean">
-        <mkdir dir="${dir.deploy.temp}" />
-        <exec command="git submodule update --init --recursive" passthru="true" />
+    <target name="make" description="Make the application">
+        <mkdir dir="${dir.make}" />
         <exec command="rm composer.phar" passthru="true" />
         <exec command="rm -rf vendor/" passthru="true" />
+        <exec command="git submodule update --init --recursive" passthru="true" />
         <exec command="curl -s https://getcomposer.org/installer | php" passthru="true" />
         <exec command="php composer.phar install --no-dev" passthru="true" />
 
-        <copy todir="${dir.deploy.temp}/">
+        <copy todir="${dir.make}/">
             <fileset dir="." excludes=".git**,build**,**/*.sql,*.md,Kohana*,composer*,behat*,bin**,licenses**,features**,application/logs/*,application/cache/*,css/*.styl">
             </fileset>
         </copy>
-        <phingcall target="configure" />
     </target>
 
-    <target name="configure" description="Configure the code for production">
+    <target name="install" description="Install the application">
         <reflexive>
-            <fileset dir="${dir.deploy.temp}" includes=".htaccess,application/bootstrap.php,application/config/database.php">
+            <fileset dir="${dir.install}" includes=".htaccess,application/bootstrap.php,application/config/database.php">
             </fileset>
             <filterchain>
                 <replacetokens>
@@ -40,7 +43,7 @@
             <equals arg1="${quirk.followsymlinks}" arg2="true" />
             <then>
                 <reflexive>
-                    <fileset dir="${dir.deploy.temp}" includes=".htaccess">
+                    <fileset dir="${dir.install}" includes=".htaccess">
                     </fileset>
                     <filterchain>
                         <replaceregexp>
@@ -54,7 +57,7 @@
             <equals arg1="${quirk.rewriterule}" arg2="true" />
             <then>
                 <reflexive>
-                    <fileset dir="${dir.deploy.temp}" includes=".htaccess">
+                    <fileset dir="${dir.install}" includes=".htaccess">
                     </fileset>
                     <filterchain>
                         <replaceregexp>
@@ -73,9 +76,8 @@
         <exec command="mysql -h ${db.host} -u ${db.user} -p${db.pass} ${db.name} &lt; DATABASE.sql" passthru="true" />
     </target>
 
-    <target name="deploy" description="Build, configure and deploy latest software">
-        <phingcall target="build" />
-        <move file="${dir.deploy.temp}/" tofile="${dir.deploy}" />
+    <target name="deploy" description="Deploy the application">
+        <move file="${dir.install}/" tofile="${dir.deploy}" />
         <chown file="${dir.deploy}" user="${chown.user}" group="${chown.group}" failonerror="false" />
         <if>
             <equals arg1="${chmod.required}" arg2="true" />
@@ -88,8 +90,8 @@
 
     <target name="package" description="Build and package for distribution">
         <phingcall target="build" />
-        <exec command="cd ${dir.deploy.temp}/ &amp;&amp; zip -r package.zip * -x *.git*" passthru="true" />
-        <move file="${dir.deploy.temp}/package.zip" tofile="${dir.build}/package.zip" />
+        <exec command="cd ${dir.install}/ &amp;&amp; zip -r package.zip * -x *.git*" passthru="true" />
+        <move file="${dir.install}/package.zip" tofile="${dir.build}/package.zip" />
     </target>
 
     <target name="behat" description="Run Behat">
