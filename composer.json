@@ -4,8 +4,7 @@
     },
     "require": {
         "php": ">=5.3.3",
-        "swiftmailer/swiftmailer": "*",
-        "moult/contact": "1.*"
+        "swiftmailer/swiftmailer": "*"
     },
     "require-dev": {
         "behat/behat": "2.4.*@stable",

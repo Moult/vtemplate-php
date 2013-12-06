@@ -16,7 +16,6 @@ Backend:
  - PSR-0
  - Composer
  - Swiftmailer
- - Moult/contact
 
 Development:
 
