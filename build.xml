@@ -96,91 +96,67 @@
         <exec command="bin/behat -f progress --ansi" passthru="true" />
     </target>
 
+    <target name="phplint" description="Run PHPLint">
+        <phplint deprecatedAsError="true" tofile="${dir.reports}/phplint.log">
+            <fileset dir="${dir.app}">
+                <include name="**/*.php" />
+            </fileset>
+        </phplint>
+    </target>
+
     <target name="phpcs" description="Run PHP_CodeSniffer">
-        <phpcodesniffer standard="Kohana">
-            <fileset dir="${dir.app}">
-                <include name="**/*.php" />
-                <exclude name="**/cache/mustache/*" />
-            </fileset>
+        <phpcodesniffer standard="Kohana" file="${dir.app}">
+            <formatter type="summary" usefile="false" />
+            <formatter type="checkstyle" outfile="${dir.reports}/phpcs.xml" />
         </phpcodesniffer>
     </target>
 
-    <target name="phpcs-log" description="Run PHP_CodeSniffer with CI log">
-        <phpcodesniffer standard="Kohana">
-            <fileset dir="${dir.app}">
-                <include name="**/*.php" />
-                <exclude name="**/cache/mustache/*" />
-            </fileset>
-            <formatter type="checkstyle" outfile="${dir.build}/checkstyle-result.xml" />
-        </phpcodesniffer>
-    </target>
-
-    <target name="pdepend" description="Run pdepend">
-        <phpdepend>
-            <fileset dir="${dir.app}/classes">
-                <include name="**/*.php" />
-            </fileset>
-            <logger type="jdepend-xml" outfile="${dir.build}/jdepend.xml" />
-            <logger type="jdepend-chart" outfile="${dir.build}/dependencies.svg" />
-            <logger type="overview-pyramid" outfile="${dir.build}/overview-pyramid.svg" />
+    <target name="phpdepend" description="Run phpdepend">
+        <phpdepend file="${dir.app}">
+            <logger type="jdepend-xml" outfile="${dir.reports}/jdepend.xml" />
+            <logger type="jdepend-chart" outfile="${dir.reports}/dependencies.svg" />
+            <logger type="overview-pyramid" outfile="${dir.reports}/overview-pyramid.svg" />
         </phpdepend>
     </target>
 
     <target name="phpmd" description="Run phpmd">
-        <exec command="phpmd ${dir.app} text codesize,unusedcode,naming,design --exclude '${dir.app}/cache/*'" passthru="true" />
-    </target>
-
-    <target name="phpmd-log" description="Run phpmd with CI log">
-        <exec command="phpmd ${dir.app} text codesize,unusedcode,naming,design --exclude '${dir.app}/cache/*' --reportfile ${dir.build}/pmd.xml" passthru="true" />
+        <phpmd rulesets="codesize,unusedcode,naming,design" file="${dir.app}">
+            <formatter type="text" usefile="false" />
+            <formatter type="xml" outfile="${dir.reports}/phpmd.xml" />
+        </phpmd>
     </target>
 
     <target name="phpcpd" description="Run phpcpd">
         <phpcpd>
             <fileset dir="${dir.app}">
                 <include name="**/*.php" />
-                <exclude name="**/cache/mustache/*" />
             </fileset>
-        </phpcpd>
-    </target>
-
-    <target name="phpcpd-log" description="Run phpcpd with CI log">
-        <phpcpd>
-            <fileset dir="${dir.app}">
-                <include name="**/*.php" />
-                <exclude name="**/cache/mustache/*" />
-            </fileset>
-            <formatter type="pmd" outfile="${dir.build}/cpd.xml" />
+            <formatter type="default" usefile="false" />
+            <formatter type="pmd" outfile="${dir.reports}/phpcpd.xml" />
         </phpcpd>
     </target>
 
     <target name="phpdcd" description="Run phpdcd">
-        <exec command="phpdcd --exclude ${dir.app}/classes/auth/ --exclude ${dir.app}/cache/ ${dir.app}" passthru="true" />
+        <exec command="phpdcd ${dir.app} | tee ${dir.reports}/phpdcd.log" passthru="true" />
     </target>
 
     <target name="phpdoc2" description="Run phpDocumentor2">
-        <exec command="phpdoc --title=vtemplate -t ${project.basedir}/docs/ -d ${dir.app}/classes/" passthru="true" />
+        <exec command="rm -rf ${dir.docs}" passthru="true" />
+        <mkdir dir="${dir.docs}" />
+        <phpdoc2 title="API Documentation" destdir="${dir.docs}">
+            <fileset dir="${dir.app}">
+                <include name="**/*.php" />
+            </fileset>
+        </phpdoc2>
     </target>
 
-    <target name="main" description="Check Behat feature compliance">
+    <target name="main" description="Perform a full code analysis">
         <phingcall target="behat" />
-    </target>
-
-    <target name="analyse" description="Perform a full code analysis" depends="clean">
-        <phingcall target="behat" />
+        <phingcall target="phplint" />
         <phingcall target="phpcs" />
         <phingcall target="pdepend" />
         <phingcall target="phpmd" />
         <phingcall target="phpcpd" />
-        <phingcall target="phpdcd" />
-        <phingcall target="phpdoc2" />
-    </target>
-
-    <target name="analyse-log" description="Run analysis with CI logs" depends="clean">
-        <phingcall target="behat" />
-        <phingcall target="phpcs-log" />
-        <phingcall target="pdepend" />
-        <phingcall target="phpmd-log" />
-        <phingcall target="phpcpd-log" />
         <phingcall target="phpdcd" />
         <phingcall target="phpdoc2" />
     </target>
