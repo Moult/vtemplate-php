@@ -13,8 +13,8 @@
 
     <target name="make" description="Make the application">
         <mkdir dir="${dir.make}" />
-        <exec command="rm composer.phar" passthru="true" />
-        <exec command="rm -rf vendor/" passthru="true" />
+        <delete file="composer.phar" />
+        <delete dir="vendor/" />
         <exec command="git submodule update --init --recursive" passthru="true" />
         <exec command="curl -s https://getcomposer.org/installer | php" passthru="true" />
         <exec command="php composer.phar install --no-dev" passthru="true" />
@@ -143,7 +143,7 @@
     </target>
 
     <target name="phpdoc2" description="Run phpDocumentor2">
-        <exec command="rm -rf ${dir.docs}" passthru="true" />
+        <delete dir="${dir.docs}/" />
         <mkdir dir="${dir.docs}" />
         <phpdoc2 title="API Documentation" destdir="${dir.docs}">
             <fileset dir="${dir.app}">
