@@ -89,9 +89,35 @@
     </target>
 
     <target name="package" description="Build and package for distribution">
-        <phingcall target="build" />
-        <exec command="cd ${dir.install}/ &amp;&amp; zip -r package.zip * -x *.git*" passthru="true" />
-        <move file="${dir.install}/package.zip" tofile="${dir.build}/package.zip" />
+        <delete>
+            <fileset dir="${dir.build}">
+                <include name="package.*" />
+            </fileset>
+        </delete>
+        <if>
+            <equals arg1="${package.type}" arg2="tar" />
+            <then>
+                <tar basedir="${dir.install}" destfile="${dir.build}/package.tar" />
+            </then>
+            <elseif>
+                <equals arg1="${package.type}" arg2="targz" />
+                <then>
+                    <tar basedir="${dir.install}" destfile="${dir.build}/package.tar.gz" compression="gzip" />
+                </then>
+            </elseif>
+            <elseif>
+                <equals arg1="${package.type}" arg2="tarbz2" />
+                <then>
+                    <tar basedir="${dir.install}" destfile="${dir.build}/package.tar.bz2" compression="bzip2" />
+                </then>
+            </elseif>
+            <elseif>
+                <equals arg1="${package.type}" arg2="zip" />
+                <then>
+                    <zip basedir="${dir.install}" destfile="${dir.build}/package.zip" />
+                </then>
+            </elseif>
+        </if>
     </target>
 
     <target name="behat" description="Run Behat">
