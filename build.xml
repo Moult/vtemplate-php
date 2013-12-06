@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="vtemplate" default="main">
-    <property file="./build.properties" />
+    <property file="build.properties" />
 
     <target name="clean" description="Purge build directory">
         <exec command="rm -rf ${dir.build}" passthru="true" />
