@@ -51,14 +51,14 @@
             </then>
         </if>
         <if>
-            <equals arg1="${quirk.kohanarewrite}" arg2="true" />
+            <equals arg1="${quirk.rewriterule}" arg2="true" />
             <then>
                 <reflexive>
                     <fileset dir="${dir.deploy.temp}" includes=".htaccess">
                     </fileset>
                     <filterchain>
                         <replaceregexp>
-                            <regexp pattern="RewriteRule \.\* index\.php/\$0 \[PT\]" replace="RewriteRule .* index.php?/\$0 [PT]" />
+                            <regexp pattern="RewriteRule \.\* index\.php/\$0 \[PT\]" replace="RewriteRule .* index.php [PT]" />
                         </replaceregexp>
                     </filterchain>
                 </reflexive>
