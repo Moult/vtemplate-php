@@ -3,5 +3,4 @@
 bin/*
 build/*
 composer.phar
-docs/*
 vendor/*
