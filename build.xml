@@ -193,4 +193,10 @@
         <phingcall target="phpdcd" />
         <phingcall target="phpdoc2" />
     </target>
+
+    <target name="launch" description="Runs make, install, and deploy">
+        <phingcall target="make" />
+        <phingcall target="install" />
+        <phingcall target="deploy" />
+    </target>
 </project>
