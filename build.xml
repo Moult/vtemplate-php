@@ -26,6 +26,12 @@
     </target>
 
     <target name="install" description="Install the application">
+        <copy todir="${dir.install}">
+            <mapper type="glob" from="*.example" to="*" />
+            <fileset dir="${dir.install}">
+                <include name="**/*.example" />
+            </fileset>
+        </copy>
         <reflexive>
             <fileset dir="${dir.install}" includes=".htaccess,application/bootstrap.php,application/config/database.php">
             </fileset>
