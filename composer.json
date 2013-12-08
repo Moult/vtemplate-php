@@ -16,6 +16,7 @@
         "kohana/userguide": "3.3.*@dev",
         "moult/ko-cms": "dev-master",
         "moult/ko-errorpage": "dev-master",
+        "moult/driver": "dev-master",
         "modulargaming/kostache": "dev-master",
         "swiftmailer/swiftmailer": "*"
     },

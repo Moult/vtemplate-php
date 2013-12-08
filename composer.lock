@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "61ef17bec29eab36b928def7753dbb13",
+    "hash": "c7f101ccab457b2188148559478d1493",
     "packages": [
         {
             "name": "composer/installers",
@@ -592,6 +592,42 @@
                 "templating"
             ],
             "time": "2013-07-26 16:15:58"
+        },
+        {
+            "name": "moult/driver",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Moult/driver.git",
+                "reference": "92432eadd18a24c05dbbc2997fff49d30d8e2b8e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Moult/driver/zipball/92432eadd18a24c05dbbc2997fff49d30d8e2b8e",
+                "reference": "92432eadd18a24c05dbbc2997fff49d30d8e2b8e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Library abstraction layer for framework agnostic domain logic",
+            "keywords": [
+                "abstraction",
+                "driver",
+                "framework",
+                "library"
+            ],
+            "time": "2013-12-08 21:36:58"
         },
         {
             "name": "moult/ko-cms",
@@ -2844,6 +2880,7 @@
         "kohana/userguide": 20,
         "moult/ko-cms": 20,
         "moult/ko-errorpage": 20,
+        "moult/driver": 20,
         "modulargaming/kostache": 20,
         "behat/behat": 0,
         "behat/mink": 0,
