@@ -29,6 +29,15 @@
         "phpspec/phpspec2": "dev-develop",
         "phing/phing": "dev-master"
     },
-    "autoload": {"psr-0": {"": "application/classes"}},
-    "minimum-stability": "dev"
+    "autoload": {
+      "psr-0": {
+        "": "application/classes"
+      }
+    },
+    "minimum-stability": "dev",
+    "extra": {
+      "installer-paths": {
+        "vendor/{$type}/{$name}/": ["type:kohana-module"]
+      }
+    }
 }
