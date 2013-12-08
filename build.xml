@@ -20,7 +20,7 @@
         <exec command="php composer.phar install --no-dev" passthru="true" />
 
         <copy todir="${dir.make}/">
-            <fileset dir="." excludes=".git**,build**,**/*.sql,*.md,Kohana*,composer*,behat*,bin**,licenses**,features**,application/logs/*,application/cache/*,css/*.styl">
+            <fileset dir="." excludes="*.example,.git**,build**,**/*.sql,*.md,Kohana*,composer*,behat*,bin**,licenses**,features**,application/logs/*,application/cache/*,css/*.styl">
             </fileset>
         </copy>
     </target>
