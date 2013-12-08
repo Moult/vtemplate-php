@@ -77,13 +77,18 @@
     </target>
 
     <target name="deploy" description="Deploy the application">
-        <move file="${dir.install}/" tofile="${dir.deploy}" />
-        <chown file="${dir.deploy}" user="${chown.user}" group="${chown.group}" failonerror="false" />
         <if>
-            <equals arg1="${chmod.required}" arg2="true" />
+            <equals arg1="${deploy.type}" arg2="local" />
             <then>
-                <chmod file="${dir.deploy}/application/logs" mode="0777" />
-                <chmod file="${dir.deploy}/application/cache" mode="0777" />
+                <move file="${dir.install}/" tofile="${deploy.location}" />
+                <chown file="${deploy.location}" user="${chown.user}" group="${chown.group}" failonerror="false" />
+                <if>
+                    <equals arg1="${chmod.required}" arg2="true" />
+                    <then>
+                        <chmod file="${deploy.location}/application/logs" mode="0777" />
+                        <chmod file="${deploy.location}/application/cache" mode="0777" />
+                    </then>
+                </if>
             </then>
         </if>
     </target>
@@ -95,24 +100,24 @@
             </fileset>
         </delete>
         <if>
-            <equals arg1="${package.type}" arg2="tar" />
+            <equals arg1="${package.format}" arg2="tar" />
             <then>
                 <tar basedir="${dir.install}" destfile="${dir.build}/package.tar" />
             </then>
             <elseif>
-                <equals arg1="${package.type}" arg2="targz" />
+                <equals arg1="${package.format}" arg2="targz" />
                 <then>
                     <tar basedir="${dir.install}" destfile="${dir.build}/package.tar.gz" compression="gzip" />
                 </then>
             </elseif>
             <elseif>
-                <equals arg1="${package.type}" arg2="tarbz2" />
+                <equals arg1="${package.format}" arg2="tarbz2" />
                 <then>
                     <tar basedir="${dir.install}" destfile="${dir.build}/package.tar.bz2" compression="bzip2" />
                 </then>
             </elseif>
             <elseif>
-                <equals arg1="${package.type}" arg2="zip" />
+                <equals arg1="${package.format}" arg2="zip" />
                 <then>
                     <zip basedir="${dir.install}" destfile="${dir.build}/package.zip" />
                 </then>
