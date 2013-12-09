@@ -80,26 +80,6 @@ if (isset($_SERVER['KOHANA_ENV']))
 }
 
 /**
- * Initialize Kohana, setting the default options.
- *
- * The following options are available:
- *
- * - string   base_url    path, and optionally domain, of your application   NULL
- * - string   index_file  name of your index file, usually "index.php"       index.php
- * - string   charset     internal character set used for input and output   utf-8
- * - string   cache_dir   set the internal cache directory                   APPPATH/cache
- * - integer  cache_life  lifetime, in seconds, of items cached              60
- * - boolean  errors      enable or disable error handling                   TRUE
- * - boolean  profile     enable or disable internal profiling               TRUE
- * - boolean  caching     enable or disable internal caching                 FALSE
- * - boolean  expose      set the X-Powered-By header                        FALSE
- */
-Kohana::init(array(
-    'base_url'   => '/@SUBDIR@',
-    'index_file' => ''
-));
-
-/**
  * Attach the file write to logging. Multiple writers are supported.
  */
 Kohana::$log->attach(new Log_File(APPPATH.'logs'));
@@ -108,6 +88,12 @@ Kohana::$log->attach(new Log_File(APPPATH.'logs'));
  * Attach a file reader to config. Multiple readers are supported.
  */
 Kohana::$config->attach(new Config_File);
+
+/**
+ * Initialize Kohana
+ */
+$init_config = Kohana::$config->load('init')->as_array();
+Kohana::init($init_config);
 
 /**
  * Enable modules. Modules are referenced by a relative or absolute path.
@@ -128,45 +114,14 @@ Kohana::modules(array(
     ));
 
 /**
- * Set the routes. Each route must have a minimum of a name, a URI and a set of
- * defaults for the URI.
+ * Include default routes. Default routes are located in application/routes/default.php
  */
-Route::set('homepage', '')
-    ->defaults(array(
-        'controller' => 'static',
-        'action'     => 'homepage',
-    ));
-
-/**
- * CMS module routes
- */
-/*
-Route::set('cms', 'cms')
-    ->defaults(array(
-        'controller' => 'cms',
-        'action'     => 'dashboard'
-    ));
-
-Route::set('cms editor', 'cms/edit(/<template_path>)', array('template_path' => '.*'))
-    ->defaults(array(
-        'controller' => 'cms',
-        'action'     => 'edit',
-    ));
- */
-
-/**
- * Catchall route
- */
-Route::set('default', '(<template_path>)', array('template_path' => '.*'))
-    ->defaults(array(
-        'controller' => 'static',
-        'action'     => 'loader',
-    ));
+include Kohana::find_file('routes', 'default');
 
 /**
  * Salt used for storing cookies for sessions
  */
-Cookie::$salt = 'pleasechangethistoanyrandomstring';
+Cookie::$salt = $init_config['cookiesalt'];
 
 /**
  * Load composer dependencies

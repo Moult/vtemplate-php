@@ -33,11 +33,17 @@
             </fileset>
         </copy>
         <reflexive>
-            <fileset dir="${dir.install}" includes=".htaccess,application/bootstrap.php,application/config/database.php">
+            <fileset dir="${dir.install}" includes=".htaccess,application/config/*.php">
             </fileset>
             <filterchain>
                 <replacetokens>
-                    <token key="SUBDIR" value="${dir.sub}" />
+                    <token key="APP_SUBDIR" value="${app.subdir}" />
+                    <token key="APP_INDEXFILE" value="${app.indexfile}" />
+                    <token key="APP_CHARSET" value="${app.charset}" />
+                    <token key="APP_ERRORHANDLING" value="${app.errorhandling}" />
+                    <token key="APP_PROFILING" value="${app.profiling}" />
+                    <token key="APP_CACHING" value="${app.caching}" />
+                    <token key="APP_COOKIESALT" value="${app.cookiesalt}" />
                     <token key="DB_HOST" value="${db.host}" />
                     <token key="DB_USER" value="${db.user}" />
                     <token key="DB_PASS" value="${db.pass}" />
@@ -137,21 +143,21 @@
 
     <target name="phplint" description="Run PHPLint">
         <phplint deprecatedAsError="true" tofile="${dir.reports}/phplint.log">
-            <fileset dir="${dir.app}">
+            <fileset dir="${app.classdir}">
                 <include name="**/*.php" />
             </fileset>
         </phplint>
     </target>
 
     <target name="phpcs" description="Run PHP_CodeSniffer">
-        <phpcodesniffer standard="Kohana" file="${dir.app}">
+        <phpcodesniffer standard="Kohana" file="${app.classdir}">
             <formatter type="summary" usefile="false" />
             <formatter type="checkstyle" outfile="${dir.reports}/phpcs.xml" />
         </phpcodesniffer>
     </target>
 
     <target name="phpdepend" description="Run phpdepend">
-        <phpdepend file="${dir.app}">
+        <phpdepend file="${app.classdir}">
             <logger type="jdepend-xml" outfile="${dir.reports}/jdepend.xml" />
             <logger type="jdepend-chart" outfile="${dir.reports}/dependencies.svg" />
             <logger type="overview-pyramid" outfile="${dir.reports}/overview-pyramid.svg" />
@@ -159,7 +165,7 @@
     </target>
 
     <target name="phpmd" description="Run phpmd">
-        <phpmd rulesets="codesize,unusedcode,naming,design" file="${dir.app}">
+        <phpmd rulesets="codesize,unusedcode,naming,design" file="${app.classdir}">
             <formatter type="text" usefile="false" />
             <formatter type="xml" outfile="${dir.reports}/phpmd.xml" />
         </phpmd>
@@ -167,7 +173,7 @@
 
     <target name="phpcpd" description="Run phpcpd">
         <phpcpd>
-            <fileset dir="${dir.app}">
+            <fileset dir="${app.classdir}">
                 <include name="**/*.php" />
             </fileset>
             <formatter type="default" usefile="false" />
@@ -176,14 +182,14 @@
     </target>
 
     <target name="phpdcd" description="Run phpdcd">
-        <exec command="phpdcd ${dir.app} | tee ${dir.reports}/phpdcd.log" passthru="true" />
+        <exec command="phpdcd ${app.classdir} | tee ${dir.reports}/phpdcd.log" passthru="true" />
     </target>
 
     <target name="phpdoc2" description="Run phpDocumentor2">
         <delete dir="${dir.docs}/" />
         <mkdir dir="${dir.docs}" />
         <phpdoc2 title="API Documentation" destdir="${dir.docs}">
-            <fileset dir="${dir.app}">
+            <fileset dir="${app.classdir}">
                 <include name="**/*.php" />
             </fileset>
         </phpdoc2>
