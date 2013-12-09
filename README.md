@@ -16,6 +16,7 @@ Backend:
  - PSR-0
  - Composer
  - Swiftmailer
+ - Driver
 
 Development:
 
@@ -27,17 +28,12 @@ Development:
 
 Although most code is vanilla industry standard, I have tweaked the following:
 
- 1. Catchall route autoloads Static templates without need for a view. See
-    `application/classes/Controller/Static.php`. E.g. `static/foo/` will load
-    `APPPATH/templates/static/foo.mustache`
- 2. Autorendering templates. See `application/classes/Controller/Core.php`
- 3. Drivers to help connect KO libraries with framework agnostic domain code.
-    Includes a simplified MySQL Auth driver, Swiftmailer based email driver,
-    KOstache integrated formatting driver, and validation driver. All code in
-    `modules/driver/`
- 4. The WYMEditor-based CMS contains a customised version of WYMEditor. Included
-    is a login dashboard, a themed editor, and support for more blocks such as
-    article, section, divisions, citations, and code.
+ 1. Autoload static pages for rapid prototyping
+ 2. Ability to autorender templates from your controller
+ 3. The Driver component allows you to develop apps which combine libraries
+    across different frameworks.
+ 4. The CMS dashboard is custom, and WYMEditor has been customised to support
+    more HTML5 tags, and nesting of blocks.
 
 # Documentation
 
