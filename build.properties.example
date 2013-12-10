@@ -7,6 +7,10 @@ app.profiling=FALSE
 app.caching=TRUE
 app.cookiesalt=pleasechangethistoanyrandomstringwithoutsinglequotes
 
+behat.showcmd=opera-next %s
+behat.baseurl=http://localhost/${app.subdir}
+behat.browsername=chrome
+
 # Available types: local, ssh, ftp, rsync
 deploy.type=local
 deploy.location=/path/to/webroot

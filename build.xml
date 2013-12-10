@@ -33,7 +33,7 @@
             </fileset>
         </copy>
         <reflexive>
-            <fileset dir="${dir.install}" includes=".htaccess,application/config/*.php">
+            <fileset dir="${dir.install}" includes=".htaccess,behat.yml,application/config/*.php">
             </fileset>
             <filterchain>
                 <replacetokens>
@@ -44,6 +44,9 @@
                     <token key="APP_PROFILING" value="${app.profiling}" />
                     <token key="APP_CACHING" value="${app.caching}" />
                     <token key="APP_COOKIESALT" value="${app.cookiesalt}" />
+                    <token key="BEHAT_SHOWCMD" value="${behat.showcmd}" />
+                    <token key="BEHAT_BASEURL" value="${behat.baseurl}" />
+                    <token key="BEHAT_BROWSERNAME" value="${behat.browsername}" />
                     <token key="DB_HOST" value="${db.host}" />
                     <token key="DB_USER" value="${db.user}" />
                     <token key="DB_PASS" value="${db.pass}" />
