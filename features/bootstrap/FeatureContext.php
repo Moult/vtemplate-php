@@ -75,7 +75,7 @@ class FeatureContext extends Behat\MinkExtension\Context\MinkContext
     }
 
     /**
-     * @Given /^the "([^"]*)" element should display "([^"]*)"$/
+     * @Then /^the "([^"]*)" element should display "([^"]*)"$/
      */
     public function theElementShouldDisplay($selector, $image_path)
     {
@@ -88,7 +88,7 @@ class FeatureContext extends Behat\MinkExtension\Context\MinkContext
     }
 
     /**
-     * @Given /^the "([^"]*)" element should be "([^"]*)" by "([^"]*)" pixels$/
+     * @Then /^the "([^"]*)" element should be "([^"]*)" by "([^"]*)" pixels$/
      */
     public function theElementShouldBeByPixels($selector, $width, $height)
     {
