@@ -599,12 +599,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Moult/driver.git",
-                "reference": "92432eadd18a24c05dbbc2997fff49d30d8e2b8e"
+                "reference": "498ecc665f8a82be8c94c4edb5e1939bf9c001b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Moult/driver/zipball/92432eadd18a24c05dbbc2997fff49d30d8e2b8e",
-                "reference": "92432eadd18a24c05dbbc2997fff49d30d8e2b8e",
+                "url": "https://api.github.com/repos/Moult/driver/zipball/498ecc665f8a82be8c94c4edb5e1939bf9c001b9",
+                "reference": "498ecc665f8a82be8c94c4edb5e1939bf9c001b9",
                 "shasum": ""
             },
             "require": {
@@ -627,7 +627,7 @@
                 "framework",
                 "library"
             ],
-            "time": "2013-12-08 21:36:58"
+            "time": "2013-12-10 12:42:12"
         },
         {
             "name": "moult/ko-cms",
@@ -2157,12 +2157,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phingofficial/phing.git",
-                "reference": "caa44ad3be20318dd782699f2711513f5ad5bfaf"
+                "reference": "bc0d217dfeb7a9e000a07eed716c548b156d7f52"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phingofficial/phing/zipball/caa44ad3be20318dd782699f2711513f5ad5bfaf",
-                "reference": "caa44ad3be20318dd782699f2711513f5ad5bfaf",
+                "url": "https://api.github.com/repos/phingofficial/phing/zipball/bc0d217dfeb7a9e000a07eed716c548b156d7f52",
+                "reference": "bc0d217dfeb7a9e000a07eed716c548b156d7f52",
                 "shasum": ""
             },
             "require": {
@@ -2201,7 +2201,7 @@
                 "task",
                 "tool"
             ],
-            "time": "2013-12-07 11:19:52"
+            "time": "2013-12-09 20:45:51"
         },
         {
             "name": "phpspec/php-diff",
