@@ -17,7 +17,7 @@
  */
 
 return array(
-    'base_url'   => '@APP_SUBDIR@',
+    'base_url'   => '/@APP_SUBDIR@',
     'index_file' => '@APP_INDEXFILE@',
     'charset'    => '@APP_CHARSET@',
     'errors'     => @APP_ERRORHANDLING@,
