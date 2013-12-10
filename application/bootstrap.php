@@ -80,6 +80,12 @@ if (isset($_SERVER['KOHANA_ENV']))
 }
 
 /**
+ * Initialize Kohana
+ */
+$init_config = include 'config/init.php';
+Kohana::init($init_config);
+
+/**
  * Attach the file write to logging. Multiple writers are supported.
  */
 Kohana::$log->attach(new Log_File(APPPATH.'logs'));
@@ -88,12 +94,6 @@ Kohana::$log->attach(new Log_File(APPPATH.'logs'));
  * Attach a file reader to config. Multiple readers are supported.
  */
 Kohana::$config->attach(new Config_File);
-
-/**
- * Initialize Kohana
- */
-$init_config = Kohana::$config->load('init')->as_array();
-Kohana::init($init_config);
 
 /**
  * Enable modules. Modules are referenced by a relative or absolute path.
