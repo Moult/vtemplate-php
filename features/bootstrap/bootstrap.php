@@ -1,16 +1,14 @@
 <?php
 /**
- * Bootstraps necessary Kohana dependencies to run PHPSpec tests.
- * From docroot, run `phpspec spec/ --bootstrap spec/bootstrap.php`
- *
- * @author    Dion Moult <dion@thinkmoult.com>
- * @copyright (c) 2013 Dion Moult
- * @license   MIT
+ * @license MIT
+ * Full license text in LICENSE file
  */
 
+// Bootstraps necessary Kohana dependencies to run Behat tests.
+
 $application = 'application';
-$modules = 'modules';
-$system = 'system';
+$modules = 'vendor/kohana-module';
+$system = 'vendor/kohana/core';
 
 define('EXT', '.php');
 
