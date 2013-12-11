@@ -4,7 +4,7 @@ app.indexfile=
 app.charset=utf-8
 app.errorhandling=TRUE
 app.profiling=FALSE
-app.caching=TRUE
+app.caching=FALSE
 app.cookiesalt=pleasechangethistoanyrandomstringwithoutsinglequotes
 
 behat.showcmd=opera-next %s
