@@ -12,17 +12,20 @@
     </target>
 
     <target name="make" description="Make the application">
+        <exec command="rm -rf ${dir.make}" passthru="true" />
         <mkdir dir="${dir.make}" />
-        <delete file="composer.phar" />
-        <delete dir="vendor/" />
         <exec command="git submodule update --init --recursive" passthru="true" />
-        <exec command="curl -s https://getcomposer.org/installer | php" passthru="true" />
-        <exec command="php composer.phar install --no-dev" passthru="true" />
 
         <copy todir="${dir.make}/">
-            <fileset dir="." excludes="*.example,.git**,build**,**/*.sql,*.md,Kohana*,composer*,behat*,bin**,licenses**,features**,application/logs/*,application/cache/*,css/*.styl">
+            <fileset dir="." excludes="*.example,.git**,vendor**,build**,**/*.sql,*.md,Kohana*,behat*,bin**,licenses**,features**,application/logs/*,application/cache/*,css/*.styl">
             </fileset>
         </copy>
+        <exec command="cd ${dir.make} &amp;&amp; php composer.phar install --no-dev" passthru="true" />
+        <delete>
+            <fileset dir="${dir.make}">
+                <include name="composer.*" />
+            </fileset>
+        </delete>
     </target>
 
     <target name="install" description="Install the application">
