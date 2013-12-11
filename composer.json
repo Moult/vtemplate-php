@@ -5,7 +5,6 @@
     "require": {
         "php": ">=5.4.0",
         "kohana/core": "3.3.*@dev",
-        "kohana/auth": "3.3.*@dev",
         "moult/ko-errorpage": "dev-master",
         "modulargaming/kostache": "dev-master"
     },
@@ -20,6 +19,7 @@
         "phing/phing": "dev-master"
     },
     "suggest": {
+        "kohana/auth": "3.3.*@dev",
         "kohana/cache": "3.3.*@dev",
         "kohana/codebench": "3.3.*@dev",
         "kohana/database": "3.3.*@dev",
