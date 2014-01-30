@@ -2,7 +2,32 @@
 
 return array
 (
-        'default' => array
+        'default' => array(
+                'type'       => 'PDO',
+                'connection' => array(
+                        /**
+                         * The following options are available for PDO:
+                         *
+                         * string   dsn         Data Source Name
+                         * string   username    database username
+                         * string   password    database password
+                         * boolean  persistent  use persistent connections?
+                         */
+                        'dsn'        => 'mysql:host=@DB_HOST@;dbname=@DB_NAME@',
+                        'username'   => '@DB_USER@',
+                        'password'   => '@DB_PASS@',
+                        'persistent' => FALSE,
+                ),
+                /**
+                 * The following extra options are available for PDO:
+                 *
+                 * string   identifier  set the escaping identifier
+                 */
+                'table_prefix' => '',
+                'charset'      => 'utf8',
+                'caching'      => FALSE,
+        ),
+        'alternate' => array
         (
                 'type'       => 'MySQL',
                 'connection' => array(
@@ -24,31 +49,6 @@ return array
                         'password'   => '@DB_PASS@',
                         'persistent' => FALSE,
                 ),
-                'table_prefix' => '',
-                'charset'      => 'utf8',
-                'caching'      => FALSE,
-        ),
-        'alternate' => array(
-                'type'       => 'PDO',
-                'connection' => array(
-                        /**
-                         * The following options are available for PDO:
-                         *
-                         * string   dsn         Data Source Name
-                         * string   username    database username
-                         * string   password    database password
-                         * boolean  persistent  use persistent connections?
-                         */
-                        'dsn'        => 'mysql:host=localhost;dbname=kohana',
-                        'username'   => 'root',
-                        'password'   => 'r00tdb',
-                        'persistent' => FALSE,
-                ),
-                /**
-                 * The following extra options are available for PDO:
-                 *
-                 * string   identifier  set the escaping identifier
-                 */
                 'table_prefix' => '',
                 'charset'      => 'utf8',
                 'caching'      => FALSE,
