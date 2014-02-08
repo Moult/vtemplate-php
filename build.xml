@@ -17,7 +17,7 @@
         <exec command="git submodule update --init --recursive" passthru="true" />
 
         <copy todir="${dir.make}/">
-            <fileset dir="." excludes="*.example,.git**,vendor**,build**,**/*.sql,*.md,Kohana*,behat*,bin**,licenses**,features**,application/logs/*,application/cache/*,css/*.styl">
+            <fileset dir="." excludes=".git**,vendor**,build**,**/*.sql,*.md,Kohana*,behat*,bin**,licenses**,features**,application/logs/*,application/cache/*,css/*.styl">
             </fileset>
         </copy>
         <exec command="cd ${dir.make} &amp;&amp; php composer.phar install --no-dev" passthru="true" />
@@ -29,7 +29,7 @@
     </target>
 
     <target name="install" description="Install the application">
-        <copy todir="${dir.install}">
+        <copy todir="${dir.install}" overwrite="true">
             <mapper type="glob" from="*.example" to="*" />
             <fileset dir="${dir.install}">
                 <include name="**/*.example" />
@@ -85,6 +85,11 @@
                 </reflexive>
             </then>
         </if>
+        <delete>
+            <fileset dir="${dir.install}">
+                <include name="**/*.example" />
+            </fileset>
+        </delete>
     </target>
 
     <target name="updatedb" description="Load the latest database data into the database">
