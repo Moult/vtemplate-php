@@ -37,6 +37,8 @@ abstract class Controller_Core extends Controller
      */
     public function before()
     {
+        parent::before();
+
         $this->view = new stdClass;
         $view_class_name = 'View_'.ucfirst($this->request->controller()).'_'.ucfirst($this->request->action());
 
