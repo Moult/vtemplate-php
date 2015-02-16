@@ -1,0 +1,32 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+    Name: Dion Moult
+    Role: Main developer
+
+# CONTRIBUTE
+
+    https://github.com/Moult/vtemplate
+
+# TECHNOLOGY COLOPHON
+
+    VTemplate
+    HTML5
+    CSS3
+    jQuery
+    Modernizr
+    Kohana
+    Stylus
+    H5BP
+    KOstache
+    Mustache
+    WYMEditor
+    PSR0
+    Composer
+    Swiftmailer
+    PHPSpec
+    Behat
+    Mink
+    Phing
