@@ -1,31 +1,20 @@
 # What is vtemplate?
 
-vtemplate is a boilerplate setup for starting new projects which combines
+vtemplate is a boilerplate setup for starting new web interfaces which combines
 various industry standards. Everything can be plugged in and out as desired.
 
-Frontend:
+vtemplate is _not_ a framework to build your entire application. vtemplate does
+not enforce any of the dependencies it recommends - even Kohana can be
+unplugged.
 
- - H5BP 4.0.1
- - Stylus
- - Mustache (KOstache)
- - WYMEditor-based CMS
-
-Backend:
-
- - Kohana 3.3
- - PSR-0
- - Composer
-
-Development:
-
- - Behat
- - Mink
- - GNU make
- - Jasmine
- - Karma
- - Gulp
+The template code recommends a setup using H5BP, Stylus, and Mustache. The
+server code recommends using Kohana, Composer, and your own PSR-0 libraries. The
+client code recommends NPM and Bower. The tests recommend Behat, Mink, Jasmine
+and Karma. The build system recommends GNU make and gulp.
 
 See the various `composer`, `npm`, and `bower` files for more recommendations.
+
+Please start reading in `docs/vtemplate/` to learn more.
 
 ## Anything added?
 
@@ -37,10 +26,6 @@ Although most code is vanilla industry standard, I have tweaked the following:
     across different frameworks.
  4. The CMS dashboard is custom, and WYMEditor has been customised to support
     more HTML5 tags, and nesting of blocks.
-
-# Documentation
-
-Please start reading in `docs/vtemplate/`.
 
 # Licenses
 
