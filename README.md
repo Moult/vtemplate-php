@@ -1,7 +1,7 @@
 # What is vtemplate?
 
 vtemplate is a boilerplate setup for starting new projects which combines
-various industry standards.
+various industry standards. Everything can be plugged in and out as desired.
 
 Frontend:
 
@@ -15,14 +15,17 @@ Backend:
  - Kohana 3.3
  - PSR-0
  - Composer
- - Swiftmailer
- - Driver
 
 Development:
 
- - PHPSpec2
- - Behat + Mink
- - Phing
+ - Behat
+ - Mink
+ - GNU make
+ - Jasmine
+ - Karma
+ - Gulp
+
+See the various `composer`, `npm`, and `bower` files for more recommendations.
 
 ## Anything added?
 

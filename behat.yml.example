@@ -1,9 +1,0 @@
-default:
-  extensions:
-    Behat\MinkExtension\Extension:
-      show_cmd: @BEHAT_SHOWCMD@
-      base_url: @BEHAT_BASEURL@
-      browser_name: @BEHAT_BROWSERNAME@
-      goutte: ~
-      selenium2: ~
-      sahi: ~
