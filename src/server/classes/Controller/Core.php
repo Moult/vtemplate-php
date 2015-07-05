@@ -1,9 +1,4 @@
 <?php
-/**
- * vtemplate
- *
- * @license MIT
- */
 
 defined('SYSPATH') OR die('No direct script access.');
 

@@ -1,12 +1,11 @@
 <?php
-defined('SYSPATH') OR die('No direct script access.');
 
 /**
  * Sets up partials, essentially a core file for KOstache.
  */
 class View_Layout
 {
-    public $page_title = 'vtemplate';
+    public $page_title = 'Page Title';
     public $meta_description = 'Your default page description';
 
     /**

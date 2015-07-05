@@ -8,12 +8,6 @@
         "moult/ko-errorpage": "dev-master",
         "modulargaming/kostache": "dev-master"
     },
-    "require-dev": {
-        "behat/behat": "2.4.*@stable",
-        "behat/mink": "1.4.*@stable",
-        "behat/mink-extension": "*",
-        "behat/mink-goutte-driver": "*"
-    },
     "suggest": {
         "kohana/auth": "3.3.*@dev",
         "kohana/cache": "3.3.*@dev",
@@ -26,7 +20,11 @@
         "kohana/userguide": "3.3.*@dev",
         "moult/ko-cms": "dev-master",
         "moult/driver": "dev-master",
-        "swiftmailer/swiftmailer": "*"
+        "swiftmailer/swiftmailer": "*",
+        "behat/behat": "2.4.*@stable",
+        "behat/mink": "1.4.*@stable",
+        "behat/mink-extension": "*",
+        "behat/mink-goutte-driver": "*"
     },
     "autoload": {
       "psr-0": {
